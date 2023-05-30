@@ -3,5 +3,6 @@
 
     <style name="Theme.BusTrackingApp" parent="android:Theme.Material.Light.NoActionBar" >
         <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+        <item name="android:windowBackground">@color/transparent</item>
     </style>
 </resources>
