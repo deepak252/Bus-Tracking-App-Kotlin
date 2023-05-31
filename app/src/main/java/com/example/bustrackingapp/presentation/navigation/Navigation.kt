@@ -12,12 +12,12 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun Navigation(
-    navController : NavHostController = rememberAnimatedNavController()
+    navController : NavHostController = rememberAnimatedNavController(),
+    startDestination : String =  ScreenRoutes.AuthScreen.route,
 ) {
     AnimatedNavHost(
         navController = navController,
-        startDestination = ScreenRoutes.AuthScreen.route,
-
+        startDestination = startDestination,
     ){
         composable(
             route = ScreenRoutes.SplashScreen.route

@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import com.example.bustrackingapp.presentation.screens.dashboard.BusRoutesScreen
 import com.example.bustrackingapp.presentation.screens.dashboard.HomeScreen
-import com.example.bustrackingapp.presentation.screens.dashboard.ProfileScreen
+import com.example.bustrackingapp.presentation.screens.dashboard.profile.ProfileScreen
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 

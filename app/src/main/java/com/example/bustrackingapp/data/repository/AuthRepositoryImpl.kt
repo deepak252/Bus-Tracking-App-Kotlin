@@ -3,10 +3,9 @@ package com.example.bustrackingapp.data.repository
 import com.example.bustrackingapp.common.NetworkRequest
 import com.example.bustrackingapp.common.NetworkResult
 import com.example.bustrackingapp.data.remote.api.AuthApiService
+import com.example.bustrackingapp.domain.model.UserWithToken
 import com.example.bustrackingapp.domain.model.request.SignInUserRequestBody
 import com.example.bustrackingapp.domain.model.request.SignUpUserRequestBody
-import com.example.bustrackingapp.domain.model.response.SignInUserResponse
-import com.example.bustrackingapp.domain.model.response.SignUpUserResponse
 import com.example.bustrackingapp.domain.repository.AuthRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -16,7 +15,7 @@ class AuthRepositoryImpl(
     private val defaultDispatcher: CoroutineDispatcher
 ) : AuthRepository, NetworkRequest() {
 
-    override suspend fun signInUser(requestBody: SignInUserRequestBody): NetworkResult<SignInUserResponse> {
+    override suspend fun signInUser(requestBody: SignInUserRequestBody): NetworkResult<UserWithToken> {
         return withContext(defaultDispatcher){
             getResult {
                 authApiService.signInUser(requestBody)
@@ -24,7 +23,7 @@ class AuthRepositoryImpl(
         }
     }
 
-    override suspend fun signUpUser(requestBody: SignUpUserRequestBody): NetworkResult<SignUpUserResponse> {
+    override suspend fun signUpUser(requestBody: SignUpUserRequestBody): NetworkResult<UserWithToken> {
         return withContext(defaultDispatcher){
             getResult {
                 authApiService.signUpUser(requestBody)

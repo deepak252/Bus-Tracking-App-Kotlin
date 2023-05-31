@@ -75,6 +75,9 @@ dependencies {
     implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
     kapt "androidx.hilt:hilt-compiler:1.0.0"
 
+//    https://developer.android.com/topic/libraries/architecture/datastore
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
+
     //    https://developer.android.com/training/data-storage/room
     def room_version = "2.5.1"
     implementation "androidx.room:room-runtime:$room_version"

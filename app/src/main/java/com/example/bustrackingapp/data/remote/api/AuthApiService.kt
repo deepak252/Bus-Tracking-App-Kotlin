@@ -1,17 +1,16 @@
 package com.example.bustrackingapp.data.remote.api
 
 import com.example.bustrackingapp.domain.model.ApiResponse
+import com.example.bustrackingapp.domain.model.UserWithToken
 import com.example.bustrackingapp.domain.model.request.SignInUserRequestBody
 import com.example.bustrackingapp.domain.model.request.SignUpUserRequestBody
-import com.example.bustrackingapp.domain.model.response.SignInUserResponse
-import com.example.bustrackingapp.domain.model.response.SignUpUserResponse
 import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface AuthApiService {
     @POST("auth/signInUser")
-    suspend fun signInUser(@Body requestBody : SignInUserRequestBody) : ApiResponse<SignInUserResponse>
+    suspend fun signInUser(@Body requestBody : SignInUserRequestBody) : ApiResponse<UserWithToken>
 
     @POST("auth/registerUser")
-    suspend fun signUpUser(@Body requestBody : SignUpUserRequestBody) : ApiResponse<SignUpUserResponse>
+    suspend fun signUpUser(@Body requestBody : SignUpUserRequestBody) : ApiResponse<UserWithToken>
 }

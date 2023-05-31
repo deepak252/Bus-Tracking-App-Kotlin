@@ -1,26 +1,19 @@
 package com.example.bustrackingapp.presentation.screens
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.bustrackingapp.presentation.state.SplashViewModel
-import com.example.bustrackingapp.ui.theme.Orange200
 import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -29,11 +22,11 @@ fun SplashScreen(
 //    splashViewModel: SplashViewModel = hiltViewModel(),
     onSplashComplete : ()->Unit
 ) {
-    LaunchedEffect(key1 = Unit){
-        delay(2000)
-        onSplashComplete()
-//        navController.popBackStack(Screen.Splash.route,true)
-    }
+//    LaunchedEffect(key1 = Unit){
+//        delay(2000)
+//        onSplashComplete()
+////        navController.popBackStack(Screen.Splash.route,true)
+//    }
     Scaffold(
     ) {paddingValues ->
         Box(

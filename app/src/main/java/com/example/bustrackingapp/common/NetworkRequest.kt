@@ -1,28 +1,29 @@
 package com.example.bustrackingapp.common
 
-import android.util.Log
 import com.example.bustrackingapp.domain.model.ApiResponse
+import com.example.bustrackingapp.utils.CustomLogger
 import com.google.gson.Gson
 import retrofit2.HttpException
 
 
 abstract class NetworkRequest {
+    private val logger = CustomLogger(c = "NetworkRequest")
     suspend fun <T> getResult(apiCall: suspend () -> ApiResponse<T> ): NetworkResult<T> {
         try {
             val apiResponse = apiCall()
-            Log.d("Logger", "apiResponse : ${apiResponse}")
+            logger.info("apiResponse : $apiResponse")
             return NetworkResult.Success( apiResponse.message, apiResponse.data)
 
         } catch (e: HttpException ) {
             val errorBody = e.response()?.errorBody()?.string()
             val errorResponse =Gson().fromJson(errorBody, ApiResponse::class.java)
-            Log.e("Logger","HttpException ${errorResponse}")
+            logger.error("HttpException $errorResponse")
             if(errorResponse.message!=null){
                 return NetworkResult.Error(errorResponse.message)
             }
             return NetworkResult.Error(e.message ?: e.toString())
         }catch (e : Exception){
-            Log.e("Logger","Exception ${e}")
+            logger.error("Exception $e")
             return NetworkResult.Error(e.message ?: e.toString())
         }
 
