@@ -8,6 +8,7 @@ import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
+import com.example.bustrackingapp.common.AuthInterceptor
 import com.example.bustrackingapp.common.Constants
 import com.example.bustrackingapp.data.remote.api.BusApiService
 import com.example.bustrackingapp.data.repository.BusRepositoryImpl
@@ -33,34 +34,31 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-//    @Singleton
-//    @Provides
-//    fun provideInterceptor() : HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
-//        level = HttpLoggingInterceptor.Level.BODY
-//    }
-
-//    @Singleton
-//    @Provides
-//    fun provideOkHttp(interceptor: HttpLoggingInterceptor) : OkHttpClient = OkHttpClient.Builder()
-//        .addInterceptor(interceptor)
-//        .build()
-
-//    @Singleton
-//    @Provides
-//    fun provideRetrofit(okHttpClient: OkHttpClient) : Retrofit =
-//         Retrofit.Builder()
-//             .baseUrl(Constants.apiBaseUrl)
-//             .client(okHttpClient)
-//             .addConverterFactory(GsonConverterFactory.create())
-//             .build()
+    @Singleton
+    @Provides
+    fun provideLoggingInterceptor() : HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
+        level = HttpLoggingInterceptor.Level.BODY
+    }
 
     @Singleton
     @Provides
-    fun provideRetrofit() : Retrofit =
-        Retrofit.Builder()
-            .baseUrl(Constants.apiBaseUrl)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+    fun provideOkHttp(
+        loggingInterceptor: HttpLoggingInterceptor,
+        authInterceptor: AuthInterceptor
+    ) : OkHttpClient = OkHttpClient.Builder()
+        .addInterceptor(authInterceptor)
+        .addInterceptor(loggingInterceptor)
+        .build()
+
+    @Singleton
+    @Provides
+    fun provideRetrofit(okHttpClient: OkHttpClient) : Retrofit =
+         Retrofit.Builder()
+             .baseUrl(Constants.apiBaseUrl)
+             .client(okHttpClient)
+             .addConverterFactory(GsonConverterFactory.create())
+             .build()
+
 
     @Singleton
     @Provides

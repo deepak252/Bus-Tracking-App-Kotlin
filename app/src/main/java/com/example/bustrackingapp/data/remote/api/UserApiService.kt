@@ -5,6 +5,6 @@ import com.example.bustrackingapp.domain.model.User
 import retrofit2.http.GET
 
 interface UserApiService {
-    @GET("getUser")
+    @GET("user/getUser")
     suspend fun getUser() : ApiResponse<User>
 }

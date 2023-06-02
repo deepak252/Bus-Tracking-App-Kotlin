@@ -32,14 +32,14 @@ class MainActivity : ComponentActivity() {
                     val token by mainViewModel.token.collectAsState()
                     val isLoading by mainViewModel.loading.collectAsState()
 
-//                    var initialScreen = ScreenRoutes.SplashScreen.route
-//                    if(!isLoading){
-//                        initialScreen = if(token.isEmpty()) ScreenRoutes.AuthScreen.route
-//                            else ScreenRoutes.DashboardScreen.route
-//                    }
+                    var initialScreen = ScreenRoutes.SplashScreen.route
+                    if(!isLoading){
+                        initialScreen = if(token.isEmpty()) ScreenRoutes.AuthScreen.route
+                            else ScreenRoutes.DashboardScreen.route
+                    }
 
-                    val initialScreen = if(token.isEmpty()) ScreenRoutes.AuthScreen.route
-                                        else ScreenRoutes.DashboardScreen.route
+//                    val initialScreen = if(token.isEmpty()) ScreenRoutes.AuthScreen.route
+//                                        else ScreenRoutes.DashboardScreen.route
 
                     Log.d( loggerTag, "MainActivity,  Loading = $isLoading, InitialScreen = $initialScreen, Token = $token")
 

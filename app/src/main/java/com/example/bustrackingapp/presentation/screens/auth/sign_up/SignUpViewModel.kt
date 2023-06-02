@@ -76,7 +76,6 @@ class SignUpViewModel @Inject constructor(
             uiState = uiState.copy(isLoading = true, errorSignUp = null)
             viewModelScope.launch {
                 uiState = try{
-                    delay(1000)
                     val result = authRepository.signUpUser(
                         SignUpUserRequestBody(
                             name = uiState.nameInput,

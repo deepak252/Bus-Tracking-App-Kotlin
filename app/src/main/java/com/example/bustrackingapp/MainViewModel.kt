@@ -6,10 +6,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.bustrackingapp.domain.repository.UserPrefsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -28,9 +24,13 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             savedStateHandle[loadingKey] = true;
             userPrefsRepository.getToken.collect{
+                savedStateHandle[loadingKey] = true;
                 savedStateHandle[tokenKey] = it
+                if(it.isNotEmpty()){ // To Show Splash if user logged in
+                    delay(2000)
+                }
+                savedStateHandle[loadingKey] = false;
             }
-            delay(3000)
             savedStateHandle[loadingKey] = false;
         }
     }
