@@ -11,14 +11,15 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.bustrackingapp.common.loggerTag
-import com.example.bustrackingapp.presentation.navigation.Navigation
-import com.example.bustrackingapp.presentation.navigation.ScreenRoutes
+import com.example.bustrackingapp.core.presentation.navigation.Navigation
+import com.example.bustrackingapp.core.presentation.navigation.ScreenRoutes
+import com.example.bustrackingapp.core.util.LoggerUtil
 import com.example.bustrackingapp.ui.theme.BusTrackingAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    private val logger = LoggerUtil(c="MainActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -40,9 +41,7 @@ class MainActivity : ComponentActivity() {
 
 //                    val initialScreen = if(token.isEmpty()) ScreenRoutes.AuthScreen.route
 //                                        else ScreenRoutes.DashboardScreen.route
-
-                    Log.d( loggerTag, "MainActivity,  Loading = $isLoading, InitialScreen = $initialScreen, Token = $token")
-
+                    logger.info("Loading = $isLoading, InitialScreen = $initialScreen, Token = $token\"")
 
                     Navigation(startDestination = initialScreen)
                 }

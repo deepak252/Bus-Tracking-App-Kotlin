@@ -3,7 +3,7 @@ package com.example.bustrackingapp
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.bustrackingapp.domain.repository.UserPrefsRepository
+import com.example.bustrackingapp.core.domain.repository.UserPrefsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
