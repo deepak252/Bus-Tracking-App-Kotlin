@@ -14,13 +14,13 @@ import com.example.bustrackingapp.R
 @Composable
 fun LogoWhiteNoBg(
     width : Dp= 200.dp,
-    margin: Dp  = 16.dp
+    padding: Dp  = 16.dp
 ) {
     Image(
         painter = painterResource(id = R.drawable.logo_white_nobg),
         contentDescription = "logo_white_nobg",
         modifier = Modifier
             .width(width)
-            .padding(margin)
+            .padding(padding)
     )
 }

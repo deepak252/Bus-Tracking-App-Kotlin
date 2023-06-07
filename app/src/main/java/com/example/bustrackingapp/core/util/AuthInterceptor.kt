@@ -21,7 +21,7 @@ class AuthInterceptor @Inject constructor(
 
             runBlocking {
 //                logger.info("Thread : ${Thread.currentThread().name}")
-                delay(2000)
+                delay(1000)
                 if(!url.contains("/auth/")){
                     val token = userPrefsRepository.getToken.first()
                     request = request

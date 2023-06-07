@@ -25,11 +25,11 @@ private val DarkColorScheme = darkColorScheme(
 //    inversePrimary = Blue500,
     secondary = NavyBlue900, //
     onSecondary = White, // Text Color (on Screen),
-    secondaryContainer = Blue700, // Bottom Navigation Indicator,
+    secondaryContainer = Blue700, // Bottom Navigation Indicator, CustomButton
     // {CustomSolidButton}
 //    onSecondaryContainer = White,
-    tertiary = NavyBlue500, //{}
-//    onTertiary = White,
+    tertiary = NavyBlue500, // BusTileCard,
+    onTertiary = White,
 //    onTertiaryContainer = White,
     background = NavyBlue900, // Screen Background
     onBackground = White,  //

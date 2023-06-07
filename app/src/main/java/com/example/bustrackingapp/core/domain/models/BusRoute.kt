@@ -1,7 +1,7 @@
 package com.example.bustrackingapp.core.domain.models
 
 /**
- * in BusStopWithRoute
+ * in BusStopWithRoutes
  */
 data class BusRoute(
     val _id: String,

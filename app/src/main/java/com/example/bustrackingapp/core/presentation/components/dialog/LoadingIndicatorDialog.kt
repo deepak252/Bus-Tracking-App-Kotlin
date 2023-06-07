@@ -1,9 +1,8 @@
 package com.example.bustrackingapp.core.presentation.components.dialog
 
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.window.Dialog
-import com.example.bustrackingapp.ui.theme.Blue500
+import com.example.bustrackingapp.core.presentation.components.CustomLoadingIndicator
 
 @Composable
 fun LoadingIndicatorDialog(
@@ -14,8 +13,6 @@ fun LoadingIndicatorDialog(
             if(onDismiss!=null) onDismiss()
         }
     ) {
-        CircularProgressIndicator(
-            color = Blue500
-        )
+        CustomLoadingIndicator()
     }
 }

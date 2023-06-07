@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import com.example.bustrackingapp.core.presentation.dashboard.DashboardScreen
 import com.example.bustrackingapp.core.presentation.dashboard.SplashScreen
+import com.example.bustrackingapp.feature_bus_routes.presentation.route_details.BusRouteDetailsScreen
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
@@ -29,12 +30,21 @@ fun Navigation(
                 }
             )
         }
+
+        authNavGraph(navController)
+
         composable(
             route = ScreenRoutes.DashboardScreen.route
         ){
             DashboardScreen()
         }
-        authNavGraph(navController)
+
+//        composable(
+//            route = ScreenRoutes.BusRouteDetailsScreen.route
+//        ){
+//            BusRouteDetailsScreen()
+//        }
+
 
     }
 }
@@ -44,4 +54,5 @@ sealed class ScreenRoutes(val route : String){
     object SplashScreen : ScreenRoutes("splash")
     object AuthScreen : ScreenRoutes("auth")
     object DashboardScreen : ScreenRoutes("dashboard")
+//    object BusRouteDetailsScreen : ScreenRoutes("busRouteDetails")
 }

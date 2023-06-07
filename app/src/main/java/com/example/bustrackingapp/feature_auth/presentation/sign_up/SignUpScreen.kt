@@ -39,8 +39,7 @@ import com.example.bustrackingapp.R
 import com.example.bustrackingapp.core.presentation.components.CustomElevatedButton
 import com.example.bustrackingapp.core.presentation.components.CustomTextField
 import com.example.bustrackingapp.core.presentation.components.dialog.LoadingIndicatorDialog
-import com.example.bustrackingapp.core.presentation.components.logo.LogoLightCircular
-import com.example.bustrackingapp.core.presentation.components.logo.LogoWhiteNoBg
+import com.example.bustrackingapp.core.presentation.components.logo.LogoCircularLight
 import com.example.bustrackingapp.ui.theme.Blue500
 import com.example.bustrackingapp.ui.theme.Red400
 import com.example.bustrackingapp.ui.theme.White
@@ -159,7 +158,7 @@ private fun SignUpContainer(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.height(16.dp))
-        LogoLightCircular()
+        LogoCircularLight()
         Spacer(modifier = Modifier.height(16.dp))
         Row(
             modifier = Modifier.fillMaxWidth()

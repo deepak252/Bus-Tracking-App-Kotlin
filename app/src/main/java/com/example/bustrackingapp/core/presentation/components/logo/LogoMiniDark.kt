@@ -7,21 +7,20 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.bustrackingapp.R
 
 @Composable
-fun LogoMiniCircular(
-    radius : Dp= 100.dp,
-    margin: Dp  = 16.dp
+fun LogoMiniDark(
+    radius : Float = 100f,
+    padding: Float  = 8f
 ) {
     Image(
-        painter = painterResource(id = R.drawable.logo_mini_circular),
-        contentDescription = "logo_mini",
+        painter = painterResource(id = R.drawable.logo_dark_mini),
+        contentDescription = "logo_dark_mini",
         modifier = Modifier
-            .height(radius)
-            .width(radius)
-            .padding(margin)
+            .height(radius.dp)
+            .width(radius.dp)
+            .padding(padding.dp)
     )
 }

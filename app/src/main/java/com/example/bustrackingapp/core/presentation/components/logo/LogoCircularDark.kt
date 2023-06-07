@@ -12,9 +12,9 @@ import androidx.compose.ui.unit.dp
 import com.example.bustrackingapp.R
 
 @Composable
-fun LogoDarkCircular(
+fun LogoCircularDark(
     radius : Dp= 200.dp,
-    margin: Dp  = 16.dp
+    padding: Dp  = 16.dp
 ) {
     Image(
         painter = painterResource(id = R.drawable.logo_dark_circular),
@@ -22,6 +22,6 @@ fun LogoDarkCircular(
         modifier = Modifier
             .height(radius)
             .width(radius)
-            .padding(margin)
+            .padding(padding)
     )
 }

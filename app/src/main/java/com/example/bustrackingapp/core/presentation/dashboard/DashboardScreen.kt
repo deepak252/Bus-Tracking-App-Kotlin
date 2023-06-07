@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -33,22 +34,8 @@ fun DashboardScreen(
     bottomNavController: NavHostController = rememberAnimatedNavController()
 ){
     Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        "Smart Bus Tracker",
-                        style = TextStyle(
-//                            fontFamily = Poppins,
-                            fontSize = 18.sp
-                        )
-                    )
-                }
-            )
-        },
         bottomBar = {
             BottomNavBar(navController = bottomNavController)
-
         }
     ) { paddingValues->
         Box(
@@ -106,7 +93,12 @@ private fun BottomNavBar(navController : NavHostController){
                         restoreState = true
                     }
                 },
-                icon = { Icon(item.icon, contentDescription = item.title) },
+                icon = {
+                    if(item.drawableIcon!=null)
+                        Icon(painterResource(id = item.drawableIcon!!), contentDescription = null)
+                    else
+                        Icon(item.icon, contentDescription = item.title)
+                },
                 label = { Text(text = item.title) },
             )
         }

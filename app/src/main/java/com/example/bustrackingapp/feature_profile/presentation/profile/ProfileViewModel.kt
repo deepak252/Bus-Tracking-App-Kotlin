@@ -30,24 +30,24 @@ class ProfileViewModel @Inject constructor(
         private  set
     init {
         viewModelScope.launch {
-            getUser(true)
+            getUser(isLoading = true)
         }
     }
 
     fun getUser(isLoading : Boolean = false, isRefreshing : Boolean = false){
-        if(uiState.isLoading){
+        if(uiState.isLoading || uiState.isRefreshing){
             return
         }
         profileUseCases.getProfile().onEach { result->
             uiState = when (result) {
                 is Resource.Success -> {
-                    uiState.copy( user = result.data ,isLoading = false, error = null)
+                    uiState.copy( user = result.data ,isLoading = false, isRefreshing = false, error = null,)
                 }
                 is Resource.Error -> {
-                    uiState.copy( error = result.message ,isLoading = false)
+                    uiState.copy( error = result.message,isLoading = false, isRefreshing = false)
                 }
                 is Resource.Loading -> {
-                    uiState.copy(isLoading = true, error = null)
+                    uiState.copy(isLoading = isLoading, isRefreshing = isRefreshing, error = null, )
                 }
             }
         }

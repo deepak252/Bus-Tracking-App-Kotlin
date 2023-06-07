@@ -40,7 +40,7 @@ val Typography = Typography(
         fontWeight = FontWeight.Bold
     ),
     headlineLarge = TextStyle(
-        fontSize = 24.sp,
+        fontSize = 22.sp,
         fontFamily = Poppins,
         fontWeight = FontWeight.Bold
     ),
@@ -48,31 +48,32 @@ val Typography = Typography(
         fontSize = 20.sp,
         fontFamily = Poppins,
         fontWeight = FontWeight.Bold
-    ),
+    ), // SignIn, SignUp
     headlineSmall = TextStyle(
         fontSize = 18.sp,
         fontFamily = Poppins,
-        fontWeight = FontWeight.Bold),
+        fontWeight = FontWeight.Bold
+    ), // Appbar Title
     titleLarge = TextStyle(
         fontSize = 20.sp,
         fontFamily = Poppins,
-        fontWeight = FontWeight.Medium
+        fontWeight = FontWeight.SemiBold
     ),
     titleMedium = TextStyle(
         fontSize = 18.sp,
         fontFamily = Poppins,
-        fontWeight = FontWeight.Medium
+        fontWeight = FontWeight.SemiBold
     ),
     titleSmall = TextStyle(
         fontSize = 16.sp,
         fontFamily = Poppins,
-        fontWeight = FontWeight.Medium
-    ),
+        fontWeight = FontWeight.SemiBold
+    ), // Profile Name, Route No,
     bodyLarge = TextStyle(
         fontSize = 16.sp,
         fontFamily = Poppins,
         fontWeight = FontWeight.Normal
-    ), // TextField
+    ), // Default Text, TextField,
     bodyMedium = TextStyle(
         fontSize = 15.sp,
         fontFamily = Poppins,
@@ -82,7 +83,7 @@ val Typography = Typography(
         fontSize = 14.sp,
         fontFamily = Poppins,
         fontWeight = FontWeight.Normal
-    ),
+    ), // Profile phone, email, Route Name
     labelLarge = TextStyle(
         fontSize = 16.sp,
         fontFamily = Poppins,
@@ -92,12 +93,12 @@ val Typography = Typography(
         fontSize = 14.sp,
         fontFamily = Poppins,
         fontWeight = FontWeight.SemiBold
-    ),
+    ), // BusTile Title
     labelSmall = TextStyle(
         fontSize = 12.sp,
         fontFamily = Poppins,
         fontWeight = FontWeight.SemiBold
-    ),
+    ), // BusTile No.
 
 
 //    bodyLarge = TextStyle(

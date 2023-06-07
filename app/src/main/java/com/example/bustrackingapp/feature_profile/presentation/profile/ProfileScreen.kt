@@ -15,7 +15,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -23,6 +22,7 @@ import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -33,7 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.bustrackingapp.core.presentation.components.CustomElevatedButton
 import com.example.bustrackingapp.core.presentation.components.CustomImage
-import com.example.bustrackingapp.ui.theme.Blue500
+import com.example.bustrackingapp.core.presentation.components.CustomLoadingIndicator
 import com.example.bustrackingapp.ui.theme.Gray100
 import com.example.bustrackingapp.ui.theme.NavyBlue500
 import com.example.bustrackingapp.ui.theme.Red400
@@ -59,6 +59,16 @@ fun ProfileScreen(
     }
 
     Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(
+                        "Profile",
+                        style = MaterialTheme.typography.headlineSmall
+                    )
+                }
+            )
+        },
         snackbarHost = {
             SnackbarHost(
                 hostState = snackbarState,
@@ -90,9 +100,7 @@ fun ProfileScreen(
                 isRefreshing = {profileViewModel.uiState.isRefreshing},
                 onRefresh = {profileViewModel.getUser(isRefreshing = true)},
                 onLogOutClick = profileViewModel::onLogOutClick,
-
             )
-
         }
     }
 
@@ -111,14 +119,7 @@ private fun ProfileContainer(
 
 ){
     if(isLoading()){
-        return Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ){
-            CircularProgressIndicator(
-                color = Blue500
-            )
-        }
+        return CustomLoadingIndicator()
     }
 
     return SwipeRefresh(
@@ -145,13 +146,15 @@ private fun ProfileContainer(
                 Column() {
                     Text(
                         text = name()?:"User",
-                        style = MaterialTheme.typography.headlineMedium
+                        style = MaterialTheme.typography.titleSmall
                     )
                     Text(
-                        text = email()?:"xyz@gmail.com"
+                        text = email()?:"xyz@gmail.com",
+                        style = MaterialTheme.typography.bodySmall
                     )
                     Text(
-                        text = phone()?:"9876543210"
+                        text = phone()?:"9876543210",
+                        style = MaterialTheme.typography.bodySmall
                     )
                 }
             }

@@ -27,7 +27,7 @@ class MainViewModel @Inject constructor(
                 savedStateHandle[loadingKey] = true;
                 savedStateHandle[tokenKey] = it
                 if(it.isNotEmpty()){ // To Show Splash if user logged in
-                    delay(2000)
+                    delay(1000)
                 }
                 savedStateHandle[loadingKey] = false;
             }
