@@ -29,9 +29,7 @@ class ProfileViewModel @Inject constructor(
     var uiState by mutableStateOf(ProfileUiState())
         private  set
     init {
-        viewModelScope.launch {
-            getUser(isLoading = true)
-        }
+        getUser(isLoading = true)
     }
 
     fun getUser(isLoading : Boolean = false, isRefreshing : Boolean = false){

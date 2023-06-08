@@ -3,8 +3,12 @@ package com.example.bustrackingapp.core.presentation.navigation
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
+import com.example.bustrackingapp.core.domain.models.BusRoute
 import com.example.bustrackingapp.core.presentation.dashboard.DashboardScreen
 import com.example.bustrackingapp.core.presentation.dashboard.SplashScreen
+import com.example.bustrackingapp.feature_bus_routes.domain.models.BusRouteWithStops
 import com.example.bustrackingapp.feature_bus_routes.presentation.route_details.BusRouteDetailsScreen
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
@@ -36,15 +40,17 @@ fun Navigation(
         composable(
             route = ScreenRoutes.DashboardScreen.route
         ){
-            DashboardScreen()
+            DashboardScreen(
+                mainNavController = navController
+            )
         }
 
-//        composable(
-//            route = ScreenRoutes.BusRouteDetailsScreen.route
-//        ){
-//            BusRouteDetailsScreen()
-//        }
-
+        composable(
+            route = ScreenRoutes.BusRouteDetailsScreen.route,
+        ){
+            val routeId = it.arguments?.getString("routeNo")?:""
+            BusRouteDetailsScreen(routeId)
+        }
 
     }
 }
@@ -54,5 +60,5 @@ sealed class ScreenRoutes(val route : String){
     object SplashScreen : ScreenRoutes("splash")
     object AuthScreen : ScreenRoutes("auth")
     object DashboardScreen : ScreenRoutes("dashboard")
-//    object BusRouteDetailsScreen : ScreenRoutes("busRouteDetails")
+    object BusRouteDetailsScreen : ScreenRoutes("busRoute/{routeNo}")
 }

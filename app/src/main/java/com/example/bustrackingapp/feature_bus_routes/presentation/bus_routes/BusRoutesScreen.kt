@@ -39,7 +39,8 @@ fun BusRoutesScreen(
     busRoutesViewModel : BusRoutesViewModel = hiltViewModel(),
     snackbarState : SnackbarHostState = remember {
         SnackbarHostState()
-    }
+    },
+    onBusRouteClick : (BusRouteWithStops)->Unit
 ){
     LaunchedEffect(key1 = busRoutesViewModel.uiState.error){
         Log.d("BTLogger","showSnackbar")
@@ -87,6 +88,7 @@ fun BusRoutesScreen(
                 isLoading = {busRoutesViewModel.uiState.isLoading},
                 isRefreshing = {busRoutesViewModel.uiState.isRefreshing},
                 onRefresh = busRoutesViewModel::getAllBusRoutes,
+                onBusRouteClick = onBusRouteClick
             )
         }
     }
@@ -97,15 +99,11 @@ private fun BusRouteList(
     busRoutes : ()->List<BusRouteWithStops>,
     isLoading : ()->Boolean,
     isRefreshing : ()->Boolean,
-    onRefresh : (isLoading : Boolean, isRefreshing : Boolean)->Unit
+    onRefresh : (isLoading : Boolean, isRefreshing : Boolean)->Unit,
+    onBusRouteClick : (BusRouteWithStops)->Unit
 ){
     if(isLoading()){
-        return Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ){
-            CustomLoadingIndicator()
-        }
+        return CustomLoadingIndicator()
     }
     SwipeRefresh(
         state = rememberSwipeRefreshState(isRefreshing = isRefreshing()),
@@ -120,7 +118,9 @@ private fun BusRouteList(
                     BusRouteTile(
                         routeNo = item.routeNo,
                         routeName = item.name,
-                        onClick = {}
+                        onClick = {
+                            onBusRouteClick(item)
+                        }
                     )
                     Divider(color = NavyBlue300)
                 }

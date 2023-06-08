@@ -31,11 +31,13 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
 fun DashboardScreen(
-    bottomNavController: NavHostController = rememberAnimatedNavController()
+    bottomNavController: NavHostController = rememberAnimatedNavController(),
+    mainNavController : NavHostController
 ){
     Scaffold(
         bottomBar = {
-            BottomNavBar(navController = bottomNavController)
+            BottomNavBar(
+                navController = bottomNavController)
         }
     ) { paddingValues->
         Box(
@@ -43,8 +45,10 @@ fun DashboardScreen(
                 .padding(paddingValues)
                 .fillMaxSize()
         ){
-//            CurrentTab()
-            BottomNavHost(navController = bottomNavController)
+            BottomNavHost(
+                bottomNavController = bottomNavController,
+                mainNavController = mainNavController
+            )
 
         }
     }
@@ -53,13 +57,14 @@ fun DashboardScreen(
 
 @Composable
 private fun BottomNavBar(navController : NavHostController){
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
+
     val bottomNavItems = listOf(
         BottomNavItem.Home,
         BottomNavItem.BusRoutes,
         BottomNavItem.Profile,
     )
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentDestination = navBackStackEntry?.destination
 
     NavigationBar(
         modifier = Modifier

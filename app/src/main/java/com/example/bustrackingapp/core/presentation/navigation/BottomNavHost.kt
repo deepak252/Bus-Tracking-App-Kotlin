@@ -11,16 +11,23 @@ import com.google.accompanist.navigation.animation.composable
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun BottomNavHost(navController: NavHostController){
+fun BottomNavHost(
+    bottomNavController: NavHostController,
+    mainNavController : NavHostController
+){
     AnimatedNavHost(
-        navController = navController,
+        navController = bottomNavController,
         startDestination = BottomNavRoutes.HomeScreen.route
     ){
         composable(route = BottomNavRoutes.HomeScreen.route){
             HomeScreen()
         }
         composable(route = BottomNavRoutes.BusRoutesScreen.route){
-            BusRoutesScreen()
+            BusRoutesScreen(
+                onBusRouteClick = {
+                    mainNavController.navigate("busRoute/${it.routeNo}")
+                }
+            )
         }
         composable(route = BottomNavRoutes.ProfileScreen.route){
             ProfileScreen()

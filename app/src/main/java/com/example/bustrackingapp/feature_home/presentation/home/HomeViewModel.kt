@@ -25,10 +25,8 @@ class HomeViewModel @Inject constructor(
         private set
 
     init {
-//        viewModelScope.launch {
-            getNearbyBuses(isLoading = true)
-            getNearbyStops(isLoading = true)
-//        }
+        getNearbyBuses(isLoading = true)
+        getNearbyStops(isLoading = true)
     }
 
     fun getNearbyStops(isLoading : Boolean = false, isRefreshing : Boolean = false ){

@@ -21,9 +21,7 @@ class BusRoutesViewModel @Inject constructor(
         private set
 
     init {
-        viewModelScope.launch {
-            getAllBusRoutes(isLoading = true)
-        }
+        getAllBusRoutes(isLoading = true)
     }
 
     fun getAllBusRoutes(isLoading : Boolean = false, isRefreshing : Boolean = false){

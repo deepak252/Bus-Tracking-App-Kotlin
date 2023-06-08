@@ -25,12 +25,12 @@ class RouteDetailsViewModel @Inject constructor(
         private set
 
     init {
-        viewModelScope.launch {
-            getBusRoute("910_UP",isLoading = true)
-        }
+//        viewModelScope.launch {
+//            getBusRouteDetails("910_UP",isLoading = true)
+//        }
     }
 
-    fun getBusRoute(routeNo : String, isLoading : Boolean = false, isRefreshing : Boolean = false){
+    fun getBusRouteDetails(routeNo : String, isLoading : Boolean = false, isRefreshing : Boolean = false){
         if(uiState.isLoading || uiState.isRefreshing){
             return
         }
