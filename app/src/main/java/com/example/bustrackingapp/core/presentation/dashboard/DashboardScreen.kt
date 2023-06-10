@@ -11,35 +11,36 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.bustrackingapp.core.presentation.components.BottomNavItem
-import com.example.bustrackingapp.core.presentation.navigation.BottomNavHost
-import com.example.bustrackingapp.core.util.LoggerUtil
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.example.bustrackingapp.feature_bus_routes.domain.models.BusRouteWithStops
+import com.example.bustrackingapp.feature_bus_routes.presentation.bus_routes.BusRoutesScreen
+import com.example.bustrackingapp.feature_bus_stop.domain.model.BusStopWithRoutes
+import com.example.bustrackingapp.feature_home.presentation.home.HomeScreen
+import com.example.bustrackingapp.feature_profile.presentation.profile.ProfileScreen
+
+
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
 fun DashboardScreen(
-    bottomNavController: NavHostController = rememberAnimatedNavController(),
-//    mainNavController : NavHostController
+    bottomNavViewModel : DashboardViewModel = hiltViewModel(),
+    onBusRouteClick : (BusRouteWithStops)->Unit,
+    onBusStopClick : (BusStopWithRoutes)->Unit
+
 ){
-    val logger = LoggerUtil(c = "DashboardScreen")
     Scaffold(
         bottomBar = {
             BottomNavBar(
-                navController = bottomNavController)
+                items = {bottomNavViewModel.items},
+                selectedItem = {bottomNavViewModel.selectedItem},
+                onItemClick = bottomNavViewModel::onItemClick
+            )
         }
     ) { paddingValues->
         Box(
@@ -47,10 +48,21 @@ fun DashboardScreen(
                 .padding(paddingValues)
                 .fillMaxSize()
         ){
-//            logger.info("Reload")
-            BottomNavHost(
-                bottomNavController = bottomNavController,
-            )
+            when(bottomNavViewModel.selectedItem){
+                is BottomNavItem.Home->{
+                    HomeScreen(
+                        onBusStopClick = onBusStopClick
+                    )
+                }
+                is BottomNavItem.BusRoutes->{
+                    BusRoutesScreen(
+                        onBusRouteClick = onBusRouteClick
+                    )
+                }
+                is BottomNavItem.Profile->{
+                    ProfileScreen()
+                }
+            }
 
         }
     }
@@ -58,21 +70,11 @@ fun DashboardScreen(
 
 
 @Composable
-private fun BottomNavBar(navController : NavHostController){
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentDestination = navBackStackEntry?.destination
-
-    val bottomNavItems = listOf(
-        BottomNavItem.Home,
-        BottomNavItem.BusRoutes,
-        BottomNavItem.Profile,
-    )
-
-    val showBottomNav = currentDestination?.route in bottomNavItems.map { it.route }
-    if(!showBottomNav){
-        return
-    }
-
+private fun BottomNavBar(
+    items : ()->List<BottomNavItem>,
+    selectedItem : ()->BottomNavItem,
+    onItemClick : (item : BottomNavItem)->Unit,
+){
 
     NavigationBar(
         modifier = Modifier
@@ -85,34 +87,14 @@ private fun BottomNavBar(navController : NavHostController){
         ,
         tonalElevation = 12.dp,
     ) {
-        bottomNavItems.forEach{item->
-            val selected = currentDestination?.hierarchy?.any {
-                it.route == item.route
-            } == true
+        items().forEach{item->
+            val selected = selectedItem() ==item
+
             NavigationBarItem(
                 selected = selected,
                 alwaysShowLabel = false,
                 onClick = {
-                    navController.navigate(item.route) {
-//                        navController.graph.startDestinationRoute?.let { screen_route ->
-//                            popUpTo(screen_route) {
-//                                saveState = true
-//                            }
-//                        }
-//                        launchSingleTop = true
-//                        restoreState = true
-                        // Pop up to the start destination of the graph to
-                        // avoid building up a large stack of destinations
-                        // on the back stack as users select items
-                        popUpTo(navController.graph.findStartDestination().id) {
-                            saveState = true
-                        }
-                        // Avoid multiple copies of the same destination when
-                        // reselecting the same item
-                        launchSingleTop = true
-                        // Restore state when reselecting a previously selected item
-                        restoreState = true
-                    }
+                    onItemClick(item)
                 },
                 icon = {
                     if(item.drawableIcon!=null)
@@ -125,4 +107,30 @@ private fun BottomNavBar(navController : NavHostController){
         }
     }
 
+}
+
+
+@Composable
+fun SelectedScreen(
+    item : ()->BottomNavItem
+){
+    when(item()){
+        is BottomNavItem.Home->{
+            HomeScreen(
+                onBusStopClick ={
+
+                }
+            )
+        }
+        is BottomNavItem.BusRoutes->{
+            BusRoutesScreen(
+                onBusRouteClick = {
+
+                }
+            )
+        }
+        is BottomNavItem.Profile->{
+            ProfileScreen()
+        }
+    }
 }

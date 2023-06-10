@@ -33,7 +33,6 @@ import com.example.bustrackingapp.feature_bus_stop.domain.model.BusStopWithRoute
 import com.example.bustrackingapp.feature_home.presentation.components.BusStopTile
 import com.example.bustrackingapp.feature_home.presentation.components.BusTile
 import com.example.bustrackingapp.ui.theme.NavyBlue300
-import com.example.bustrackingapp.ui.theme.Orange500
 import com.example.bustrackingapp.ui.theme.Red400
 import com.example.bustrackingapp.ui.theme.White
 import com.google.accompanist.swiperefresh.SwipeRefresh
@@ -102,7 +101,6 @@ fun HomeScreen(
                         modifier = Modifier.weight(1f),
                         buses = {homeViewModel.uiState.nearbyBuses},
                         isLoading = homeViewModel.uiState.isLoadingNearbyBuses,
-//                        isLoading = {homeViewModel.uiState.isLoadingNearbyBuses},
                     )
                     Spacer(
                         modifier = Modifier.height(24.dp)
@@ -115,9 +113,7 @@ fun HomeScreen(
                         modifier = Modifier.weight(3f),
                         busStops = {homeViewModel.uiState.nearbyBusStops},
                         isLoading = homeViewModel.uiState.isLoadingNearbyStops,
-//                        isLoading = {homeViewModel.uiState.isLoadingNearbyStops},
                         isRefreshing = homeViewModel.uiState.isRefreshingNearbyStops,
-//                        isRefreshing = {homeViewModel.uiState.isRefreshingNearbyStops},
                         onRefresh = homeViewModel::getNearbyStops,
                         onBusStopClick = onBusStopClick
                     )
@@ -161,9 +157,7 @@ fun NearbyBusStopsList(
     modifier: Modifier = Modifier,
     busStops : ()-> List<BusStopWithRoutes>,
     isLoading : Boolean,
-//    isLoading : ()->Boolean,
     isRefreshing : Boolean,
-//    isRefreshing : ()->Boolean,
     onRefresh : (isLoading : Boolean, isRefreshing : Boolean)->Unit,
     onBusStopClick : (stop : BusStopWithRoutes)-> Unit
 ){

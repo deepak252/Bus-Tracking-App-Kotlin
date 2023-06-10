@@ -10,7 +10,6 @@ import com.example.bustrackingapp.feature_bus_routes.domain.use_case.BusRouteUse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel

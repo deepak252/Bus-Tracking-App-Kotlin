@@ -3,13 +3,10 @@ package com.example.bustrackingapp.core.presentation.navigation
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
-import androidx.navigation.navArgument
-import com.example.bustrackingapp.core.domain.models.BusRoute
 import com.example.bustrackingapp.core.presentation.dashboard.DashboardScreen
 import com.example.bustrackingapp.core.presentation.dashboard.SplashScreen
-import com.example.bustrackingapp.feature_bus_routes.domain.models.BusRouteWithStops
 import com.example.bustrackingapp.feature_bus_routes.presentation.route_details.RouteDetailsScreen
+import com.example.bustrackingapp.feature_bus_stop.presentation.stop_details.StopDetailsScreen
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
@@ -40,15 +37,29 @@ fun Navigation(
         composable(
             route = ScreenRoutes.DashboardScreen.route
         ){
-            DashboardScreen()
+            DashboardScreen(
+                onBusRouteClick = {
+                    navController.navigate("busRoute/${it.routeNo}")
+                },
+                onBusStopClick = {
+                    navController.navigate("busStop/${it.stopNo}")
+                }
+            )
         }
 
-//        composable(
-//            route = ScreenRoutes.RouteDetailsScreen.route,
-//        ){
-//            val routeId = it.arguments?.getString("routeNo")?:""
-//            RouteDetailsScreen(routeId)
-//        }
+        composable(
+            route = ScreenRoutes.BusRouteDetailsScreen.route,
+        ){
+            val routeNo = it.arguments?.getString("routeNo")?:""
+            RouteDetailsScreen(routeNo)
+        }
+
+        composable(
+            route = ScreenRoutes.BusStopDetailsScreen.route,
+        ){
+            val stopNo = it.arguments?.getString("stopNo")?:""
+            StopDetailsScreen(stopNo)
+        }
 
     }
 }
