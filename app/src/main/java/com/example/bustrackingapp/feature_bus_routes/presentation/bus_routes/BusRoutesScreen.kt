@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.bustrackingapp.core.presentation.components.CustomLoadingIndicator
+import com.example.bustrackingapp.core.util.LoggerUtil
 import com.example.bustrackingapp.feature_bus_routes.domain.models.BusRouteWithStops
 import com.example.bustrackingapp.feature_bus_routes.presentation.components.BusRouteTile
 import com.example.bustrackingapp.ui.theme.NavyBlue300
@@ -42,8 +43,10 @@ fun BusRoutesScreen(
     },
     onBusRouteClick : (BusRouteWithStops)->Unit
 ){
+    val logger = LoggerUtil(c = "BusRoutesScreen")
     LaunchedEffect(key1 = busRoutesViewModel.uiState.error){
-        Log.d("BTLogger","showSnackbar")
+        logger.info("Show Snackbar")
+
         if(busRoutesViewModel.uiState.error!=null){
             snackbarState.showSnackbar(busRoutesViewModel.uiState.error!!)
         }

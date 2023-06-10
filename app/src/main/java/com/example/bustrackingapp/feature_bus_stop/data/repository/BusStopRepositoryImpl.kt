@@ -14,4 +14,8 @@ class BusStopRepositoryImpl(
     override suspend fun getAllBusStops(): ApiResponse<List<BusStopWithRoutes>> = withContext(defaultDispatcher){
         stopApiService.getAllBusStops()
     }
+
+    override suspend fun getBusStop(stopNo : String): ApiResponse<BusStopWithRoutes> = withContext(defaultDispatcher){
+        stopApiService.getBusStop(stopNo)
+    }
 }

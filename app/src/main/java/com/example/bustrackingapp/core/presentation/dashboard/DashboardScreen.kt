@@ -26,14 +26,16 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.bustrackingapp.core.presentation.components.BottomNavItem
 import com.example.bustrackingapp.core.presentation.navigation.BottomNavHost
+import com.example.bustrackingapp.core.util.LoggerUtil
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
 fun DashboardScreen(
     bottomNavController: NavHostController = rememberAnimatedNavController(),
-    mainNavController : NavHostController
+//    mainNavController : NavHostController
 ){
+    val logger = LoggerUtil(c = "DashboardScreen")
     Scaffold(
         bottomBar = {
             BottomNavBar(
@@ -45,9 +47,9 @@ fun DashboardScreen(
                 .padding(paddingValues)
                 .fillMaxSize()
         ){
+//            logger.info("Reload")
             BottomNavHost(
                 bottomNavController = bottomNavController,
-                mainNavController = mainNavController
             )
 
         }
@@ -66,6 +68,12 @@ private fun BottomNavBar(navController : NavHostController){
         BottomNavItem.Profile,
     )
 
+    val showBottomNav = currentDestination?.route in bottomNavItems.map { it.route }
+    if(!showBottomNav){
+        return
+    }
+
+
     NavigationBar(
         modifier = Modifier
 //            .fillMaxHeight(.1f)
@@ -73,6 +81,7 @@ private fun BottomNavBar(navController : NavHostController){
                 horizontal = 12.dp, vertical = 12.dp
             )
             .clip(RoundedCornerShape(12.dp))
+
         ,
         tonalElevation = 12.dp,
     ) {
@@ -85,6 +94,13 @@ private fun BottomNavBar(navController : NavHostController){
                 alwaysShowLabel = false,
                 onClick = {
                     navController.navigate(item.route) {
+//                        navController.graph.startDestinationRoute?.let { screen_route ->
+//                            popUpTo(screen_route) {
+//                                saveState = true
+//                            }
+//                        }
+//                        launchSingleTop = true
+//                        restoreState = true
                         // Pop up to the start destination of the graph to
                         // avoid building up a large stack of destinations
                         // on the back stack as users select items

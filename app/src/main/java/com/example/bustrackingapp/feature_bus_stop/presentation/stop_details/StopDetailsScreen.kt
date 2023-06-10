@@ -1,4 +1,4 @@
-package com.example.bustrackingapp.feature_bus_routes.presentation.route_details
+package com.example.bustrackingapp.feature_bus_stop.presentation.stop_details
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,7 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.bustrackingapp.core.presentation.components.CustomLoadingIndicator
-import com.example.bustrackingapp.feature_bus_routes.domain.models.BusRouteWithStops
+import com.example.bustrackingapp.feature_bus_stop.domain.model.BusStopWithRoutes
 import com.example.bustrackingapp.ui.theme.Red400
 import com.example.bustrackingapp.ui.theme.White
 import com.google.accompanist.swiperefresh.SwipeRefresh
@@ -34,20 +34,20 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RouteDetailsScreen(
-    routeNo : String,
-    routeDetailsViewModel: RouteDetailsViewModel = hiltViewModel(),
+fun StopDetailsScreen(
+    stopNo : String,
+    stopDetailsViewModel: StopDetailsViewModel = hiltViewModel(),
     snackbarState : SnackbarHostState = remember {
         SnackbarHostState()
     }
 ){
     LaunchedEffect(key1 = Unit){
-        routeDetailsViewModel.getBusRouteDetails(routeNo,isLoading = true)
+        stopDetailsViewModel.getBusStopDetails(stopNo,isLoading = true)
     }
 
-    LaunchedEffect(key1 = routeDetailsViewModel.uiState.error){
-        if(routeDetailsViewModel.uiState.error!=null){
-            snackbarState.showSnackbar(routeDetailsViewModel.uiState.error!!)
+    LaunchedEffect(key1 = stopDetailsViewModel.uiState.error){
+        if(stopDetailsViewModel.uiState.error!=null){
+            snackbarState.showSnackbar(stopDetailsViewModel.uiState.error!!)
         }
     }
 
@@ -56,7 +56,7 @@ fun RouteDetailsScreen(
             TopAppBar(
                 title = {
                     Text(
-                        "Route Details",
+                        "Stop Details",
                         style = MaterialTheme.typography.headlineSmall
                     )
                 }
@@ -66,7 +66,7 @@ fun RouteDetailsScreen(
             SnackbarHost(
                 hostState = snackbarState,
             ){
-                if(routeDetailsViewModel.uiState.error!=null){
+                if(stopDetailsViewModel.uiState.error!=null){
                     Snackbar(
                         snackbarData = it,
                         containerColor = Red400,
@@ -86,10 +86,10 @@ fun RouteDetailsScreen(
                 .fillMaxSize()
         ) {
             BusRouteDetailsContainer(
-                isLoading = routeDetailsViewModel.uiState.isLoading,
-                isRefreshing = { routeDetailsViewModel.uiState.isRefreshing },
-                busRoute = routeDetailsViewModel.uiState.route,
-                onRefresh = routeDetailsViewModel::getBusRouteDetails
+                isLoading = stopDetailsViewModel.uiState.isLoading,
+                isRefreshing = { stopDetailsViewModel.uiState.isRefreshing },
+                busStop = stopDetailsViewModel.uiState.stop,
+                onRefresh = stopDetailsViewModel::getBusStopDetails
             )
         }
     }
@@ -101,12 +101,12 @@ fun BusRouteDetailsContainer(
     isLoading : Boolean,
     isRefreshing : ()->Boolean,
     onRefresh : (routeNo : String ,isLoading : Boolean,isRefreshing : Boolean)->Unit,
-    busRoute : BusRouteWithStops?
+    busStop : BusStopWithRoutes?
 ){
     if(isLoading){
         return CustomLoadingIndicator()
     }
-    if(busRoute==null){
+    if(busStop==null){
         return Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
@@ -117,7 +117,7 @@ fun BusRouteDetailsContainer(
 
     return SwipeRefresh(
         state = rememberSwipeRefreshState(isRefreshing = isRefreshing()),
-        onRefresh = { onRefresh(busRoute.routeNo,false, true) },
+        onRefresh = { onRefresh(busStop.stopNo,false, true) },
     ) {
         Column(
             modifier = modifier
@@ -127,17 +127,17 @@ fun BusRouteDetailsContainer(
         ) {
             Spacer(modifier = Modifier.height(12.dp))
             Text(
-                text = busRoute.routeNo,
+                text = busStop.stopNo,
                 style = MaterialTheme.typography.titleSmall
             )
             Text(
-                text = busRoute.name,
+                text = busStop.name,
                 style = MaterialTheme.typography.bodySmall
             )
-            Text(
-                text = busRoute.rating.toString(),
-                style = MaterialTheme.typography.bodySmall
-            )
+//            Text(
+//                text = busRoute.rating.toString(),
+//                style = MaterialTheme.typography.bodySmall
+//            )
 
         }
     }

@@ -9,7 +9,7 @@ import com.example.bustrackingapp.core.domain.models.BusRoute
 import com.example.bustrackingapp.core.presentation.dashboard.DashboardScreen
 import com.example.bustrackingapp.core.presentation.dashboard.SplashScreen
 import com.example.bustrackingapp.feature_bus_routes.domain.models.BusRouteWithStops
-import com.example.bustrackingapp.feature_bus_routes.presentation.route_details.BusRouteDetailsScreen
+import com.example.bustrackingapp.feature_bus_routes.presentation.route_details.RouteDetailsScreen
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
@@ -40,17 +40,15 @@ fun Navigation(
         composable(
             route = ScreenRoutes.DashboardScreen.route
         ){
-            DashboardScreen(
-                mainNavController = navController
-            )
+            DashboardScreen()
         }
 
-        composable(
-            route = ScreenRoutes.BusRouteDetailsScreen.route,
-        ){
-            val routeId = it.arguments?.getString("routeNo")?:""
-            BusRouteDetailsScreen(routeId)
-        }
+//        composable(
+//            route = ScreenRoutes.RouteDetailsScreen.route,
+//        ){
+//            val routeId = it.arguments?.getString("routeNo")?:""
+//            RouteDetailsScreen(routeId)
+//        }
 
     }
 }
@@ -61,4 +59,5 @@ sealed class ScreenRoutes(val route : String){
     object AuthScreen : ScreenRoutes("auth")
     object DashboardScreen : ScreenRoutes("dashboard")
     object BusRouteDetailsScreen : ScreenRoutes("busRoute/{routeNo}")
+    object BusStopDetailsScreen : ScreenRoutes("busStop/{stopNo}")
 }

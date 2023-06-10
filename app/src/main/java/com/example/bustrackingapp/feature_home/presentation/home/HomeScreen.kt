@@ -46,7 +46,8 @@ fun HomeScreen(
     homeViewModel : HomeViewModel = hiltViewModel(),
     snackbarState : SnackbarHostState = remember {
         SnackbarHostState()
-    }
+    },
+    onBusStopClick : (BusStopWithRoutes)->Unit
 ){
 
     LaunchedEffect(key1 = homeViewModel.uiState.errorNearbyBuses, key2 = homeViewModel.uiState.nearbyBusStops){
@@ -117,7 +118,8 @@ fun HomeScreen(
 //                        isLoading = {homeViewModel.uiState.isLoadingNearbyStops},
                         isRefreshing = homeViewModel.uiState.isRefreshingNearbyStops,
 //                        isRefreshing = {homeViewModel.uiState.isRefreshingNearbyStops},
-                        onRefresh = homeViewModel::getNearbyStops
+                        onRefresh = homeViewModel::getNearbyStops,
+                        onBusStopClick = onBusStopClick
                     )
                 }
 
@@ -162,7 +164,8 @@ fun NearbyBusStopsList(
 //    isLoading : ()->Boolean,
     isRefreshing : Boolean,
 //    isRefreshing : ()->Boolean,
-    onRefresh : (isLoading : Boolean, isRefreshing : Boolean)->Unit
+    onRefresh : (isLoading : Boolean, isRefreshing : Boolean)->Unit,
+    onBusStopClick : (stop : BusStopWithRoutes)-> Unit
 ){
     if(isLoading){
         return CustomLoadingIndicator(
@@ -179,7 +182,9 @@ fun NearbyBusStopsList(
                     BusStopTile(
                         stopNo = it.stopNo,
                         stopName = it.name,
-                        onClick = {}
+                        onClick = {
+                            onBusStopClick(it)
+                        }
                     )
                     Divider(
                         color = NavyBlue300,
