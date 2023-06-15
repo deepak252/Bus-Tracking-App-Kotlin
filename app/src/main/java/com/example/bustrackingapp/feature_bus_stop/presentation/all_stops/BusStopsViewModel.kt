@@ -1,4 +1,4 @@
-package com.example.bustrackingapp.feature_bus_routes.presentation.route_details
+package com.example.bustrackingapp.feature_bus_stop.presentation.all_stops
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -6,42 +6,34 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bustrackingapp.core.util.Resource
-import com.example.bustrackingapp.feature_bus.domain.use_cases.GetBusesForRouteUseCase
-import com.example.bustrackingapp.feature_bus_routes.domain.use_case.GetBusRouteUseCase
+import com.example.bustrackingapp.feature_bus_routes.domain.use_case.BusRouteUseCases
 import com.example.bustrackingapp.feature_bus_routes.presentation.bus_routes.BusRoutesUiState
+import com.example.bustrackingapp.feature_bus_stop.domain.use_case.GetAllBusStopsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 @HiltViewModel
-class RouteDetailsViewModel @Inject constructor(
-    private val getBusRouteUseCase: GetBusRouteUseCase,
-    private val getBusesForRouteUseCase: GetBusesForRouteUseCase
+class BusStopsViewModel @Inject constructor(
+    private val busStopsUseCase: GetAllBusStopsUseCase
 ) : ViewModel(){
-    var uiState by mutableStateOf(RouteDetailsUiState())
+    var uiState by mutableStateOf(BusStopsUiState())
         private set
 
     init {
-//        viewModelScope.launch {
-//            getBusRouteDetails("910_UP",isLoading = true)
-//        }
+        getAllBusStops(isLoading = true)
     }
 
-    fun toggleBottomSheet(){
-        uiState = uiState.copy(showBottomSheet = !uiState.showBottomSheet)
-    }
-
-    fun getBusRouteDetails(routeNo : String, isLoading : Boolean = false, isRefreshing : Boolean = false){
+    fun getAllBusStops(isLoading : Boolean = false, isRefreshing : Boolean = false){
         if(uiState.isLoading || uiState.isRefreshing){
             return
         }
-        getBusRouteUseCase(routeNo).onEach { result->
+        busStopsUseCase().onEach { result->
             uiState = when(result){
                 is Resource.Success ->{
-                    uiState.copy(route = result.data, isLoading = false, isRefreshing = false, error = null)
+                    uiState.copy(busStops = result.data?: emptyList(), isLoading = false, isRefreshing = false, error = null)
                 }
                 is Resource.Error ->{
                     uiState.copy(error = result.message, isLoading = false, isRefreshing = false)

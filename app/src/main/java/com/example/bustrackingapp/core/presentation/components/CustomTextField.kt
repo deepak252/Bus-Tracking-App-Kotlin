@@ -111,7 +111,8 @@ fun CustomTextField(
                     handleColor = Blue700
                 ),
                 unfocusedLabelColor = Gray400,
-                placeholderColor = Gray400,
+                unfocusedPlaceholderColor = Gray400,
+                focusedPlaceholderColor = Gray400,
                 focusedLabelColor = Blue500,
                 focusedTrailingIconColor = Blue700
             ),

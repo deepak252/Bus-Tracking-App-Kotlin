@@ -11,8 +11,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.bustrackingapp.core.presentation.components.LocationPermissionScreen
 import com.example.bustrackingapp.core.presentation.navigation.Navigation
 import com.example.bustrackingapp.core.presentation.navigation.ScreenRoutes
+import com.example.bustrackingapp.core.util.DateTimeUtil
 import com.example.bustrackingapp.core.util.LoggerUtil
 import com.example.bustrackingapp.ui.theme.BusTrackingAppTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,11 +26,15 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            BusTrackingAppTheme(darkTheme = true) {
+            BusTrackingAppTheme(darkTheme = false) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+
+//                    LocationPermissionScreen()
+
+
                     val mainViewModel = viewModel<MainViewModel>()
                     val token by mainViewModel.token.collectAsState()
                     val isLoading by mainViewModel.loading.collectAsState()

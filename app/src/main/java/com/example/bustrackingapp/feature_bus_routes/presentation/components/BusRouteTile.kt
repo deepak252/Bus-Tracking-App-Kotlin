@@ -24,6 +24,7 @@ fun BusRouteTile(
     modifier : Modifier = Modifier,
     routeNo : String,
     routeName : String,
+    totalStops : Int?=null,
     onClick : ()->Unit,
 ){
     Row(
@@ -49,6 +50,12 @@ fun BusRouteTile(
                 text = routeName,
                 style = MaterialTheme.typography.bodySmall
             )
+            if(totalStops!=null)
+                Text(
+                    text = "Total Stops : $totalStops",
+                    style = MaterialTheme.typography.bodySmall
+                )
+
         }
     }
 }
@@ -60,6 +67,7 @@ private fun BusRouteTilePreview(){
         routeNo = "111_UP",
         routeName = "Janak Puri",
         onClick = {},
+        totalStops = 20,
         modifier = Modifier.background(White)
     )
 }

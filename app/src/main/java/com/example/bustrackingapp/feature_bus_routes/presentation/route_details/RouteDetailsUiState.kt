@@ -8,5 +8,6 @@ data class RouteDetailsUiState(
     val buses : List<BusWithRoute> = emptyList(),
     val isLoading : Boolean = false,
     val isRefreshing : Boolean = false,
+    val showBottomSheet : Boolean = true,
     val error : String?=null
 )

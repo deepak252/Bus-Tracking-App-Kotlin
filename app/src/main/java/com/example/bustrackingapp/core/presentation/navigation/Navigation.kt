@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import com.example.bustrackingapp.core.presentation.dashboard.DashboardScreen
 import com.example.bustrackingapp.core.presentation.dashboard.SplashScreen
 import com.example.bustrackingapp.feature_bus_routes.presentation.route_details.RouteDetailsScreen
+import com.example.bustrackingapp.feature_bus_stop.presentation.all_stops.BusStopsScreen
 import com.example.bustrackingapp.feature_bus_stop.presentation.stop_details.StopDetailsScreen
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
@@ -39,11 +40,24 @@ fun Navigation(
         ){
             DashboardScreen(
                 onBusRouteClick = {
-                    navController.navigate("busRoute/${it.routeNo}")
+                    navController.navigate("busRoute/$it")
                 },
                 onBusStopClick = {
-                    navController.navigate("busStop/${it.stopNo}")
+                    navController.navigate("busStop/$it")
+                },
+                onAllBusStopsClick = {
+                    navController.navigate(ScreenRoutes.BusStopsScreen.route)
                 }
+            )
+        }
+
+        composable(
+            route = ScreenRoutes.BusStopsScreen.route,
+        ){
+            BusStopsScreen(
+                onStopItemClick = {stopNo->
+                    navController.navigate("busStop/$stopNo")
+                },
             )
         }
 
@@ -51,14 +65,21 @@ fun Navigation(
             route = ScreenRoutes.BusRouteDetailsScreen.route,
         ){
             val routeNo = it.arguments?.getString("routeNo")?:""
-            RouteDetailsScreen(routeNo)
+            RouteDetailsScreen(
+                routeNo= routeNo,
+            )
         }
 
         composable(
             route = ScreenRoutes.BusStopDetailsScreen.route,
         ){
             val stopNo = it.arguments?.getString("stopNo")?:""
-            StopDetailsScreen(stopNo)
+            StopDetailsScreen(
+                stopNo,
+                onBusRouteClick = {routeNo->
+                    navController.navigate("busRoute/$routeNo")
+                },
+            )
         }
 
     }
@@ -71,4 +92,5 @@ sealed class ScreenRoutes(val route : String){
     object DashboardScreen : ScreenRoutes("dashboard")
     object BusRouteDetailsScreen : ScreenRoutes("busRoute/{routeNo}")
     object BusStopDetailsScreen : ScreenRoutes("busStop/{stopNo}")
+    object BusStopsScreen : ScreenRoutes("busStops")
 }

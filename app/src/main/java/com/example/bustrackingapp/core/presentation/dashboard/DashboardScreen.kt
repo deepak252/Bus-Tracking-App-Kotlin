@@ -1,5 +1,6 @@
 package com.example.bustrackingapp.core.presentation.dashboard
 
+import android.Manifest
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,20 +19,22 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.bustrackingapp.core.presentation.components.BottomNavItem
+import com.example.bustrackingapp.core.presentation.components.LocationPermissionWrapper
 import com.example.bustrackingapp.feature_bus_routes.domain.models.BusRouteWithStops
 import com.example.bustrackingapp.feature_bus_routes.presentation.bus_routes.BusRoutesScreen
 import com.example.bustrackingapp.feature_bus_stop.domain.model.BusStopWithRoutes
 import com.example.bustrackingapp.feature_home.presentation.home.HomeScreen
 import com.example.bustrackingapp.feature_profile.presentation.profile.ProfileScreen
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.rememberMultiplePermissionsState
 
 
-
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
 fun DashboardScreen(
     bottomNavViewModel : DashboardViewModel = hiltViewModel(),
-    onBusRouteClick : (BusRouteWithStops)->Unit,
-    onBusStopClick : (BusStopWithRoutes)->Unit
+    onBusRouteClick : (String)->Unit,
+    onBusStopClick : (String)->Unit,
+    onAllBusStopsClick : ()->Unit
 
 ){
     Scaffold(
@@ -48,19 +51,22 @@ fun DashboardScreen(
                 .padding(paddingValues)
                 .fillMaxSize()
         ){
-            when(bottomNavViewModel.selectedItem){
-                is BottomNavItem.Home->{
-                    HomeScreen(
-                        onBusStopClick = onBusStopClick
-                    )
-                }
-                is BottomNavItem.BusRoutes->{
-                    BusRoutesScreen(
-                        onBusRouteClick = onBusRouteClick
-                    )
-                }
-                is BottomNavItem.Profile->{
-                    ProfileScreen()
+            LocationPermissionWrapper {
+                when(bottomNavViewModel.selectedItem){
+                    is BottomNavItem.Home->{
+                        HomeScreen(
+                            onBusStopClick = onBusStopClick,
+                            onAllBusStopsClick = onAllBusStopsClick
+                        )
+                    }
+                    is BottomNavItem.BusRoutes->{
+                        BusRoutesScreen(
+                            onRouteItemClick = onBusRouteClick
+                        )
+                    }
+                    is BottomNavItem.Profile->{
+                        ProfileScreen()
+                    }
                 }
             }
 
@@ -109,28 +115,3 @@ private fun BottomNavBar(
 
 }
 
-
-@Composable
-fun SelectedScreen(
-    item : ()->BottomNavItem
-){
-    when(item()){
-        is BottomNavItem.Home->{
-            HomeScreen(
-                onBusStopClick ={
-
-                }
-            )
-        }
-        is BottomNavItem.BusRoutes->{
-            BusRoutesScreen(
-                onBusRouteClick = {
-
-                }
-            )
-        }
-        is BottomNavItem.Profile->{
-            ProfileScreen()
-        }
-    }
-}

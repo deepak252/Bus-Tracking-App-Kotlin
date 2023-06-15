@@ -49,7 +49,8 @@ fun BusTile(
                 text = routeNo,
                 style = MaterialTheme.typography.labelMedium,
                 maxLines = 1,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+
             )
             Text(
                 text = routeName,

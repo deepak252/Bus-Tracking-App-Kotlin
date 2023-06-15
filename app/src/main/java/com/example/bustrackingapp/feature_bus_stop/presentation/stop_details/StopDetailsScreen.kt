@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -25,7 +26,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.bustrackingapp.core.presentation.components.CustomLoadingIndicator
+import com.example.bustrackingapp.core.presentation.components.FieldValue
+import com.example.bustrackingapp.feature_bus_routes.domain.models.BusRouteWithStops
+import com.example.bustrackingapp.feature_bus_routes.presentation.components.BusRouteTile
 import com.example.bustrackingapp.feature_bus_stop.domain.model.BusStopWithRoutes
+import com.example.bustrackingapp.ui.theme.NavyBlue300
 import com.example.bustrackingapp.ui.theme.Red400
 import com.example.bustrackingapp.ui.theme.White
 import com.google.accompanist.swiperefresh.SwipeRefresh
@@ -39,7 +44,8 @@ fun StopDetailsScreen(
     stopDetailsViewModel: StopDetailsViewModel = hiltViewModel(),
     snackbarState : SnackbarHostState = remember {
         SnackbarHostState()
-    }
+    },
+    onBusRouteClick : (String)->Unit
 ){
     LaunchedEffect(key1 = Unit){
         stopDetailsViewModel.getBusStopDetails(stopNo,isLoading = true)
@@ -85,23 +91,25 @@ fun StopDetailsScreen(
                 .padding(paddingValues)
                 .fillMaxSize()
         ) {
-            BusRouteDetailsContainer(
+            BusStopDetailsContainer(
                 isLoading = stopDetailsViewModel.uiState.isLoading,
                 isRefreshing = { stopDetailsViewModel.uiState.isRefreshing },
                 busStop = stopDetailsViewModel.uiState.stop,
-                onRefresh = stopDetailsViewModel::getBusStopDetails
+                onRefresh = stopDetailsViewModel::getBusStopDetails,
+                onBusRouteClick = onBusRouteClick
             )
         }
     }
 }
 
 @Composable
-fun BusRouteDetailsContainer(
+fun BusStopDetailsContainer(
     modifier : Modifier = Modifier,
     isLoading : Boolean,
     isRefreshing : ()->Boolean,
     onRefresh : (routeNo : String ,isLoading : Boolean,isRefreshing : Boolean)->Unit,
-    busStop : BusStopWithRoutes?
+    busStop : BusStopWithRoutes?,
+    onBusRouteClick : (String)->Unit
 ){
     if(isLoading){
         return CustomLoadingIndicator()
@@ -126,18 +134,30 @@ fun BusRouteDetailsContainer(
                 .padding(horizontal = 12.dp)
         ) {
             Spacer(modifier = Modifier.height(12.dp))
+            FieldValue(field = "Stop Name", value = busStop.name )
+
+            Spacer(modifier = Modifier.height(6.dp))
+            FieldValue(field = "Stop No", value = busStop.stopNo )
+
+            Spacer(modifier = Modifier.height(24.dp))
+
             Text(
-                text = busStop.stopNo,
+                "Routes : ",
                 style = MaterialTheme.typography.titleSmall
             )
-            Text(
-                text = busStop.name,
-                style = MaterialTheme.typography.bodySmall
-            )
-//            Text(
-//                text = busRoute.rating.toString(),
-//                style = MaterialTheme.typography.bodySmall
-//            )
+            Column() {
+                busStop.routes.forEach { route->
+                    BusRouteTile(
+                        routeNo = route.routeNo,
+                        routeName = route.name,
+                        onClick = {
+                            onBusRouteClick(route.routeNo)
+                        }
+                    )
+                    Divider(color = NavyBlue300)
+                }
+            }
+
 
         }
     }

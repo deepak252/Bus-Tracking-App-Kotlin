@@ -1,4 +1,4 @@
-package com.example.bustrackingapp.feature_bus_routes.presentation.bus_routes
+package com.example.bustrackingapp.feature_bus_stop.presentation.all_stops
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -18,14 +18,13 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.bustrackingapp.core.presentation.components.CustomLoadingIndicator
 import com.example.bustrackingapp.core.util.LoggerUtil
-import com.example.bustrackingapp.feature_bus_routes.domain.models.BusRouteWithStops
-import com.example.bustrackingapp.feature_bus_routes.presentation.components.BusRouteTile
+import com.example.bustrackingapp.feature_bus_stop.domain.model.BusStopWithRoutes
+import com.example.bustrackingapp.feature_bus_stop.presentation.components.BusStopTile
 import com.example.bustrackingapp.ui.theme.NavyBlue300
 import com.example.bustrackingapp.ui.theme.Red400
 import com.example.bustrackingapp.ui.theme.White
@@ -33,21 +32,22 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BusRoutesScreen(
-    busRoutesViewModel : BusRoutesViewModel = hiltViewModel(),
+fun BusStopsScreen(
+    busStopsViewModel: BusStopsViewModel = hiltViewModel(),
     snackbarState : SnackbarHostState = remember {
         SnackbarHostState()
     },
-    onRouteItemClick : (String)->Unit
+    onStopItemClick : (String)->Unit
 ){
     val logger = LoggerUtil(c = "BusRoutesScreen")
-    LaunchedEffect(key1 = busRoutesViewModel.uiState.error){
+    LaunchedEffect(key1 = busStopsViewModel.uiState.error){
         logger.info("Show Snackbar")
 
-        if(busRoutesViewModel.uiState.error!=null){
-            snackbarState.showSnackbar(busRoutesViewModel.uiState.error!!)
+        if(busStopsViewModel.uiState.error!=null){
+            snackbarState.showSnackbar(busStopsViewModel.uiState.error!!)
         }
     }
 
@@ -56,7 +56,7 @@ fun BusRoutesScreen(
             TopAppBar(
                 title = {
                     Text(
-                        "Bus Routes",
+                        "Bus Stops",
                         style = MaterialTheme.typography.headlineSmall
                     )
                 }
@@ -66,7 +66,7 @@ fun BusRoutesScreen(
             SnackbarHost(
                 hostState = snackbarState,
             ){
-                if(busRoutesViewModel.uiState.error!=null){
+                if(busStopsViewModel.uiState.error!=null){
                     Snackbar(
                         snackbarData = it,
                         containerColor = Red400,
@@ -85,24 +85,24 @@ fun BusRoutesScreen(
                 .padding(paddingValues)
                 .fillMaxSize()
         ) {
-            BusRouteList(
-                busRoutes = {busRoutesViewModel.uiState.busRoutes},
-                isLoading = {busRoutesViewModel.uiState.isLoading},
-                isRefreshing = {busRoutesViewModel.uiState.isRefreshing},
-                onRefresh = busRoutesViewModel::getAllBusRoutes,
-                onRouteItemClick = onRouteItemClick
+            BusStopList(
+                busStops = {busStopsViewModel.uiState.busStops},
+                isLoading = {busStopsViewModel.uiState.isLoading},
+                isRefreshing = {busStopsViewModel.uiState.isRefreshing},
+                onRefresh = busStopsViewModel::getAllBusStops,
+                onStopItemClick = onStopItemClick
             )
         }
     }
 }
 
 @Composable
-private fun BusRouteList(
-    busRoutes : ()->List<BusRouteWithStops>,
+private fun BusStopList(
+    busStops : ()->List<BusStopWithRoutes>,
     isLoading : ()->Boolean,
     isRefreshing : ()->Boolean,
     onRefresh : (isLoading : Boolean, isRefreshing : Boolean)->Unit,
-    onRouteItemClick : (String)->Unit
+    onStopItemClick : (String)->Unit
 ){
     if(isLoading()){
         return CustomLoadingIndicator()
@@ -113,16 +113,15 @@ private fun BusRouteList(
     ) {
         LazyColumn(
             content = {
-                itemsIndexed(busRoutes()){ index,item->
+                itemsIndexed(busStops()){ index,item->
                     if(index==0){
                         Divider(color = NavyBlue300)
                     }
-                    BusRouteTile(
-                        routeNo = item.routeNo,
-                        routeName = item.name,
-                        totalStops = item.stops.size,
+                    BusStopTile(
+                        stopNo = item.stopNo,
+                        stopName = item.name,
                         onClick = {
-                            onRouteItemClick(item.routeNo)
+                            onStopItemClick(item.stopNo)
                         }
                     )
                     Divider(color = NavyBlue300)

@@ -6,6 +6,7 @@ import com.example.bustrackingapp.feature_bus_stop.domain.repository.BusStopRepo
 import com.example.bustrackingapp.feature_bus_stop.domain.use_case.BusStopUseCases
 import com.example.bustrackingapp.feature_bus_stop.domain.use_case.GetAllBusStopsUseCase
 import com.example.bustrackingapp.feature_bus_stop.domain.use_case.GetBusStopUseCase
+import com.example.bustrackingapp.feature_bus_stop.domain.use_case.GetNearbyBusStopsUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,9 +36,11 @@ object BusStopModule {
     @Singleton
     fun provideBusStopUseCases(
         getAllBusStopsUseCase: GetAllBusStopsUseCase,
+        getNearbyBusStopsUseCase: GetNearbyBusStopsUseCase,
         getBusStopUseCase: GetBusStopUseCase,
     ) : BusStopUseCases = BusStopUseCases(
         getAllBusStops = getAllBusStopsUseCase,
+        getNearbyBusStops = getNearbyBusStopsUseCase,
         getBusStop = getBusStopUseCase,
     )
 

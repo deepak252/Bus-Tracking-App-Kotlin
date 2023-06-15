@@ -8,7 +8,7 @@ data class BusRoute(
     val routeNo: String,
     val name: String,
 //    val stops: List<Stop>,
-    val timings: List<Timing>,
+    val schedule: List<RouteSchedule>,
     val rating: Int,
     val createdAt: String,
     val updatedAt: String

@@ -8,10 +8,14 @@ import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
+import com.example.bustrackingapp.core.data.repository.LocationRepositoryImpl
 import com.example.bustrackingapp.core.util.AuthInterceptor
 import com.example.bustrackingapp.core.data.repository.UserPrefsRepositoryImpl
+import com.example.bustrackingapp.core.domain.repository.LocationRepository
 import com.example.bustrackingapp.core.domain.repository.UserPrefsRepository
 import com.example.bustrackingapp.core.util.Constants
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -76,20 +80,21 @@ object AppModule {
         dataStore : DataStore<Preferences>
     ) : UserPrefsRepository = UserPrefsRepositoryImpl(dataStore )
 
+    @Singleton
+    @Provides
+    fun provideLocationRepository(
+        @ApplicationContext appContext : Context,
+        fusedLocationClient: FusedLocationProviderClient
+    ) : LocationRepository = LocationRepositoryImpl(appContext, fusedLocationClient)
 
-//    @Singleton
-//    @Provides
-//    fun provideBusApiService(retrofit: Retrofit) : BusApiService = retrofit.create(BusApiService::class.java)
-
-//    @Singleton
-//    @Provides
-//    fun provideBusRepository(
-//        busApiService: BusApiService,
-//        dispatcher: CoroutineDispatcher
-//    ) : BusRepository = BusRepositoryImpl(busApiService, dispatcher)
+    @Singleton
+    @Provides
+    fun provideFusedClient(
+        @ApplicationContext appContext : Context
+    ) : FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(appContext)
 
     @Provides
-    fun provideIDispatcher(): CoroutineDispatcher {
+    fun provideDispatcher(): CoroutineDispatcher {
         return Dispatchers.IO
     }
 }

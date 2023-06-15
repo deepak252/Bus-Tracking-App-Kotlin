@@ -52,9 +52,22 @@ private val DarkColorScheme = darkColorScheme(
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = NavyBlue500,
-    secondary = Teal500,
-    tertiary = Teal700
+
+    onPrimary = NavyBlue900,
+
+    primary = White,
+    secondary = White,
+    tertiary = White,
+    onTertiary = NavyBlue900,
+
+    primaryContainer = White,
+
+    secondaryContainer = Blue700,
+    onSecondaryContainer = White,
+
+    surfaceTint = Blue500, //
+
+
 //    primary = Purple40,
 //    secondary = PurpleGrey40,
 //    tertiary = Pink40

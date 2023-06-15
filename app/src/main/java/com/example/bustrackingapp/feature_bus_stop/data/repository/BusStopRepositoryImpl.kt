@@ -15,6 +15,13 @@ class BusStopRepositoryImpl(
         stopApiService.getAllBusStops()
     }
 
+    override suspend fun getNearbyBusStops(
+        lat: Double,
+        lng: Double
+    ): ApiResponse<List<BusStopWithRoutes>> = withContext(defaultDispatcher){
+        stopApiService.getNearbyBusStops(lat,lng)
+    }
+
     override suspend fun getBusStop(stopNo : String): ApiResponse<BusStopWithRoutes> = withContext(defaultDispatcher){
         stopApiService.getBusStop(stopNo)
     }
