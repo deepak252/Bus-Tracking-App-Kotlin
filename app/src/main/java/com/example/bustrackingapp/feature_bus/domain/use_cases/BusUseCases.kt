@@ -5,4 +5,5 @@ data class BusUseCases(
     val getAllBuses : GetAllBusesUseCase,
     val getBusesForRoute : GetBusesForRouteUseCase,
     val getBusesForStop : GetBusesForStopUseCase,
+    val getNearbyBuses : GetNearbyBusesUseCase
 )

@@ -6,15 +6,12 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bustrackingapp.core.domain.repository.UserPrefsRepository
-import com.example.bustrackingapp.feature_profile.domain.repository.UserRepository
 import com.example.bustrackingapp.core.util.LoggerUtil
 import com.example.bustrackingapp.core.util.Resource
-import com.example.bustrackingapp.feature_profile.domain.user_case.GetUserUseCase
-import com.example.bustrackingapp.feature_profile.domain.user_case.ProfileUseCases
+import com.example.bustrackingapp.feature_profile.domain.use_case.ProfileUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking

@@ -28,13 +28,17 @@ import com.example.bustrackingapp.ui.theme.White
 
 @Composable
 fun CustomTimeline(
+    modifier: Modifier = Modifier,
     items : List<TimelineItem>
 ){
-    Column {
+    Column(
+        modifier = modifier
+    ) {
         items.forEachIndexed{ i,item->
             TimelineTile(
                 item = item,
-                isLast = i == items.size-1
+                isLast = i == items.size-1,
+                index = i
             )
         }
     }
@@ -46,7 +50,8 @@ fun TimelineTile(
     modifier: Modifier = Modifier,
     isFirst : Boolean = false,
     isLast : Boolean = false,
-    item : TimelineItem
+    item : TimelineItem,
+    index : Int,
 ){
     Row(
         modifier = modifier.fillMaxWidth()
@@ -66,7 +71,7 @@ fun TimelineTile(
                 Box(
                     modifier = Modifier
                         .background(NavyBlue300)
-                        .height(40.dp)
+                        .height(50.dp)
                         .width(3.dp)
                 )
         }
@@ -75,7 +80,7 @@ fun TimelineTile(
             modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
         ) {
             Text(
-                item.title,
+                "${index+1}. ${item.title}",
                 style = MaterialTheme.typography.labelMedium,
                 maxLines = 1
             )
@@ -106,6 +111,7 @@ private fun TimelineTilePreview(){
             .background(White),
         item = TimelineItem(
             title = "Arriving"
-        )
+        ),
+        index = 1
     )
 }

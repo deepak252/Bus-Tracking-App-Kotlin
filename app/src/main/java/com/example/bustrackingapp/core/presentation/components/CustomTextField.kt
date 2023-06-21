@@ -13,6 +13,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -29,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import com.example.bustrackingapp.ui.theme.Blue500
 import com.example.bustrackingapp.ui.theme.Blue700
 import com.example.bustrackingapp.ui.theme.Gray400
+import com.example.bustrackingapp.ui.theme.NavyBlue200
 import com.example.bustrackingapp.ui.theme.NavyBlue500
 import com.example.bustrackingapp.ui.theme.Red500
 
@@ -50,7 +52,9 @@ fun CustomTextField(
     trailingIcon : ImageVector?=null,
     onTrailingIconClick : (()->Unit)?=null,
     visualTransformation: VisualTransformation = VisualTransformation.None,
+    radius : Int = 8,
     errorMessage : (()->String?)?=null,
+    prefix: @Composable (() -> Unit)? = null,
     textSize: TextUnit = 16.sp,
     color: Color = MaterialTheme.colorScheme.secondaryContainer,
     width: Float = 1f,
@@ -65,7 +69,7 @@ fun CustomTextField(
             onValueChange,
             modifier = modifier
                 .fillMaxWidth(),
-            shape = RoundedCornerShape(8.dp),
+            shape = RoundedCornerShape(radius.dp),
             maxLines=maxLines,
             singleLine = singleLine,
             placeholder = {
@@ -73,6 +77,8 @@ fun CustomTextField(
                     hintText
                 )
             },
+            prefix = prefix,
+
             label = {
                 if(labelText!=null){
                     Text(
@@ -85,6 +91,8 @@ fun CustomTextField(
                     Icon(
                         imageVector = leadingIcon,
                         contentDescription = null,
+                        modifier = Modifier.padding(start = 4.dp),
+                        tint = NavyBlue200
                     )
                 }
             }else {null},
@@ -102,19 +110,19 @@ fun CustomTextField(
                     }
                 }
             },
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                unfocusedBorderColor = NavyBlue500,
-                focusedBorderColor = Blue700,
+            colors = OutlinedTextFieldDefaults.colors(
                 cursorColor = Blue700,
                 selectionColors = TextSelectionColors(
                     backgroundColor = Blue500,
                     handleColor = Blue700
                 ),
-                unfocusedLabelColor = Gray400,
-                unfocusedPlaceholderColor = Gray400,
-                focusedPlaceholderColor = Gray400,
+                focusedBorderColor = Blue700,
+                unfocusedBorderColor = NavyBlue500,
+                focusedTrailingIconColor = Blue700,
                 focusedLabelColor = Blue500,
-                focusedTrailingIconColor = Blue700
+                unfocusedLabelColor = Gray400,
+                focusedPlaceholderColor = Gray400,
+                unfocusedPlaceholderColor = Gray400,
             ),
             keyboardOptions = KeyboardOptions(
                 keyboardType = keyboardType,

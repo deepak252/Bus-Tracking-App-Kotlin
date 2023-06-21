@@ -73,22 +73,30 @@ fun mapEventsOverlay(context : Context, view : MapView, onTap : (GeoPoint)->Unit
     })
 }
 
-fun addMarker(context : Context, mapView : MapView, geoPoint: GeoPoint, snippet : String?=null){
+fun addMarker(
+//    context : Context,
+    mapView : MapView,
+    geoPoint: GeoPoint,
+    title: String?=null,
+    snippet : String?=null,
+    icon: Drawable?=null,
+) : Marker{
     val marker = Marker(mapView)
     marker.position = geoPoint
-    marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
+    marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
 
+    marker.title = title
     if(snippet!=null){
         marker.snippet = snippet
     }
 
-    val customIcon = context.getDrawable(R.drawable.bus_stop)
-    val resizedIcon = resizeDrawable(customIcon, newWidth = 50, newHeight = 50)
-    marker.icon = BitmapDrawable(context.resources, resizedIcon)
-
+    if(icon!=null){
+        marker.icon = icon
+    }
 //    marker.icon = customIcon
 
     mapView.overlays.add(marker)
+    return marker
 }
 
 
@@ -98,7 +106,7 @@ fun createPolyline(mapView: MapView, startPoint: GeoPoint, endPoint: GeoPoint): 
     polyline.color = 0xFF0000FF.toInt() // Set color to blue
     polyline.addPoint(startPoint)
     polyline.addPoint(endPoint)
-
+    polyline.infoWindow = null
     return polyline
 }
 

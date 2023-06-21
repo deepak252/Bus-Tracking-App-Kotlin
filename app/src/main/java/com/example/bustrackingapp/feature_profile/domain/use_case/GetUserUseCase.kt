@@ -1,4 +1,4 @@
-package com.example.bustrackingapp.feature_profile.domain.user_case
+package com.example.bustrackingapp.feature_profile.domain.use_case
 
 import com.example.bustrackingapp.core.data.remote.dto.ApiResponse
 import com.example.bustrackingapp.core.util.ApiHandler

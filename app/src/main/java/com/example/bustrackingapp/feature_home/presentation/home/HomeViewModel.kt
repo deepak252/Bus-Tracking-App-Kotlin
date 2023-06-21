@@ -12,6 +12,7 @@ import com.example.bustrackingapp.core.domain.repository.LocationRepository
 import com.example.bustrackingapp.core.util.LoggerUtil
 import com.example.bustrackingapp.core.util.Resource
 import com.example.bustrackingapp.feature_bus.domain.use_cases.BusUseCases
+import com.example.bustrackingapp.feature_bus.domain.use_cases.GetNearbyBusesUseCase
 import com.example.bustrackingapp.feature_bus_stop.domain.use_case.BusStopUseCases
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -24,7 +25,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val busStopUseCases: BusStopUseCases,
-    private val busUseCases: BusUseCases,
+    private val nearbyBusesUseCase: GetNearbyBusesUseCase,
     private val locationRepository: LocationRepository,
 ): ViewModel(){
     private val logger = LoggerUtil(c= "HomeVieModel")
@@ -40,17 +41,29 @@ class HomeViewModel @Inject constructor(
             return
         }
         uiState = uiState.copy(isLoadingLocation = true)
-        locationRepository.getLocation(
-            onSuccess = {
-                uiState = uiState.copy(location = it, errorLocation = null)
+        locationRepository.getCurrentLocation(
+            callback = {
+//                logger.info("current location : $it","getLocationBusesStops")
+                uiState = uiState.copy(location = it, errorLocation = null, isLoadingLocation = false)
                 getNearbyBuses(isLoading = true)
                 getNearbyStops(isLoading = true)
             },
             onError = {
-                uiState = uiState.copy(errorLocation = it.message)
-            }
+                uiState = uiState.copy(errorLocation = it.message, isLoadingLocation = false)
+            },
+            isLive = false,
         )
-        uiState = uiState.copy(isLoadingLocation = false)
+//        locationRepository.getLocation(
+//            onSuccess = {
+//                uiState = uiState.copy(location = it, errorLocation = null)
+//                getNearbyBuses(isLoading = true)
+//                getNearbyStops(isLoading = true)
+//            },
+//            onError = {
+//                uiState = uiState.copy(errorLocation = it.message)
+//            }
+//        )
+//        uiState = uiState.copy(isLoadingLocation = false)
     }
 
     private fun getAllBusStops(isLoading : Boolean = false, isRefreshing : Boolean = false ){
@@ -127,10 +140,18 @@ class HomeViewModel @Inject constructor(
     }
 
     fun getNearbyBuses(isLoading : Boolean = false, isRefreshing : Boolean = false ){
-        if(uiState.isLoadingNearbyBuses || uiState.isRefreshingNearbyBuses){
+        if( uiState.isLoadingLocation || uiState.isLoadingNearbyBuses || uiState.isRefreshingNearbyBuses){
             return
         }
-        busUseCases.getAllBuses().onEach { result->
+        if(uiState.location==null){
+            uiState = uiState.copy(errorNearbyStops = "Couldn't fetch current location")
+            return
+        }
+
+        nearbyBusesUseCase(
+            uiState.location!!.latitude,
+            uiState.location!!.longitude
+        ).onEach { result->
             uiState = when(result){
                 is Resource.Success ->{
                     uiState.copy(

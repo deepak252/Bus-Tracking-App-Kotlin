@@ -11,7 +11,7 @@ class LoggerUtil(
         logger.info("$c $fxn : $msg")
     }
 
-    fun error(err : Any, fxn:String?=""){
+    fun error(err : Any,  fxn:String?=""){
         logger.warning("$c $fxn : $err")
     }
 

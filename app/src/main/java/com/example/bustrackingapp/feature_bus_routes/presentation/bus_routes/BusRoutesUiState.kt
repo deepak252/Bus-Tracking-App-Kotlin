@@ -4,7 +4,9 @@ import com.example.bustrackingapp.feature_bus_routes.domain.models.BusRouteWithS
 import com.example.bustrackingapp.feature_profile.domain.models.User
 
 data class BusRoutesUiState(
-    val busRoutes : List<BusRouteWithStops> = emptyList(),
+    val allRoutes : List<BusRouteWithStops> = emptyList(),
+    val busRoutes : List<BusRouteWithStops> = emptyList(), // search result
+    val searchInput : String = "",
     val isLoading : Boolean = false,
     val isRefreshing : Boolean = false,
     val error : String?=null

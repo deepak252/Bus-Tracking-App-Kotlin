@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.bustrackingapp.R
 import com.example.bustrackingapp.core.presentation.components.CustomImage
+import com.example.bustrackingapp.core.presentation.components.FieldValue
 import com.example.bustrackingapp.ui.theme.Gray100
 
 @Composable
@@ -34,7 +35,7 @@ fun BusTile(
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = modifier
-                .width(120.dp)
+                .width(130.dp)
                 .clickable {
                     onClick()
                 }
@@ -46,11 +47,17 @@ fun BusTile(
                 size = 54f,
             )
             Text(
-                text = routeNo,
+                text = "Veh No:  $vehNo",
                 style = MaterialTheme.typography.labelMedium,
                 maxLines = 1,
                 textAlign = TextAlign.Center,
 
+            )
+            Text(
+                text = "Route No:  $routeNo",
+                style = MaterialTheme.typography.labelSmall,
+                maxLines = 1,
+                textAlign = TextAlign.Center
             )
             Text(
                 text = routeName,

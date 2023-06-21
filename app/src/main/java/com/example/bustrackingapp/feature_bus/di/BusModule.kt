@@ -8,6 +8,7 @@ import com.example.bustrackingapp.feature_bus.domain.use_cases.GetAllBusesUseCas
 import com.example.bustrackingapp.feature_bus.domain.use_cases.GetBusByVehNoUseCase
 import com.example.bustrackingapp.feature_bus.domain.use_cases.GetBusesForRouteUseCase
 import com.example.bustrackingapp.feature_bus.domain.use_cases.GetBusesForStopUseCase
+import com.example.bustrackingapp.feature_bus.domain.use_cases.GetNearbyBusesUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -40,11 +41,13 @@ object BusStopModule {
         getAllBusesUseCase: GetAllBusesUseCase,
         getBusesForRouteUseCase: GetBusesForRouteUseCase,
         getBusesForStopUseCase: GetBusesForStopUseCase,
+        getNearbyBusesUseCase: GetNearbyBusesUseCase
     ) : BusUseCases = BusUseCases(
         getAllBuses = getAllBusesUseCase,
         getBusByVehNo = getBusByVehNoUseCase,
         getBusesForRoute = getBusesForRouteUseCase,
         getBusesForStop = getBusesForStopUseCase,
+        getNearbyBuses = getNearbyBusesUseCase
     )
 
 }

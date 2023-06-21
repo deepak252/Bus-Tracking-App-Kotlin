@@ -3,8 +3,8 @@ package com.example.bustrackingapp.feature_profile.di
 import com.example.bustrackingapp.feature_profile.data.remote.api.UserApiService
 import com.example.bustrackingapp.feature_profile.data.repository.UserRepositoryImpl
 import com.example.bustrackingapp.feature_profile.domain.repository.UserRepository
-import com.example.bustrackingapp.feature_profile.domain.user_case.GetUserUseCase
-import com.example.bustrackingapp.feature_profile.domain.user_case.ProfileUseCases
+import com.example.bustrackingapp.feature_profile.domain.use_case.GetUserUseCase
+import com.example.bustrackingapp.feature_profile.domain.use_case.ProfileUseCases
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

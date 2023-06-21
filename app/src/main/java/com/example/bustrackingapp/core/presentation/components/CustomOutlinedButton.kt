@@ -2,6 +2,7 @@ package com.example.bustrackingapp.core.presentation.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
@@ -22,7 +23,7 @@ import com.example.bustrackingapp.ui.theme.NavyBlue300
 fun CustomOutlinedButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
-    text: String,
+    text: String?=null,
     textSize: TextUnit = 16.sp,
     color: Color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.2f),
 
@@ -30,8 +31,8 @@ fun CustomOutlinedButton(
     contentPadding: PaddingValues = PaddingValues(
         start = 14.dp, top = 15.dp, end = 14.dp, bottom = 11.dp,
     ),
-    borderRadius : Double = 10.0
-
+    borderRadius : Double = 10.0,
+    content: (@Composable RowScope.() -> Unit)?=null
 
 ) {
     OutlinedButton(
@@ -44,10 +45,13 @@ fun CustomOutlinedButton(
         shape = RoundedCornerShape(borderRadius.dp),
         border = BorderStroke(1.dp, NavyBlue300),
     ) {
-        Text(
-            text,
-            fontSize = textSize,
-//            fontFamily = Poppins,
-        )
+        if(content!=null)
+            content()
+        else
+            Text(
+                text?:"",
+                fontSize = textSize,
+    //            fontFamily = Poppins,
+            )
     }
 }

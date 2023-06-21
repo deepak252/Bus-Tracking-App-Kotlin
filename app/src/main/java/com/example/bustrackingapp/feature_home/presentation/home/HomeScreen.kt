@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -36,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.bustrackingapp.core.presentation.components.CustomLoadingIndicator
 import com.example.bustrackingapp.core.presentation.components.CustomOutlinedButton
+import com.example.bustrackingapp.core.presentation.components.RefreshContainer
 import com.example.bustrackingapp.feature_bus.domain.models.BusWithRoute
 import com.example.bustrackingapp.feature_bus_stop.domain.model.BusStopWithRoutes
 import com.example.bustrackingapp.feature_bus_stop.presentation.components.BusStopTile
@@ -55,7 +57,8 @@ fun HomeScreen(
     snackbarState : SnackbarHostState = remember {
         SnackbarHostState()
     },
-    onBusStopClick : (String)->Unit,
+    onNearbyBusClick : (String)->Unit,
+    onNearbyBusStopClick : (String)->Unit,
     onAllBusStopsClick : ()->Unit
 ){
     val context = LocalContext.current
@@ -121,7 +124,9 @@ fun HomeScreen(
                     NearbyBusesList(
                         modifier = Modifier.weight(1f),
                         buses = {homeViewModel.uiState.nearbyBuses},
-                        isLoading = homeViewModel.uiState.isLoadingNearbyBuses,
+                        isLoading =  homeViewModel.uiState.isLoadingLocation || homeViewModel.uiState.isLoadingNearbyBuses,
+                        onRefresh = homeViewModel::getNearbyBuses,
+                        onBusClick = onNearbyBusClick
                     )
                     Spacer(
                         modifier = Modifier.height(24.dp)
@@ -129,7 +134,7 @@ fun HomeScreen(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding( horizontal = 8.dp ),
+                            .padding(horizontal = 8.dp),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -151,23 +156,15 @@ fun HomeScreen(
                                 )
 
                         )
-//                        CustomOutlinedButton(
-//                            onClick = {
-//                            },
-//                            text = "All Bus Stops",
-//                            contentPadding = PaddingValues(
-//                                start = 4.dp, top = 4.dp, end = 4.dp, bottom = 2.dp,
-//                            ),
-//                        )
 
                     }
                     NearbyBusStopsList(
                         modifier = Modifier.weight(3f),
                         busStops = {homeViewModel.uiState.nearbyBusStops},
-                        isLoading = homeViewModel.uiState.isLoadingNearbyStops,
+                        isLoading = homeViewModel.uiState.isLoadingLocation || homeViewModel.uiState.isLoadingNearbyStops,
                         isRefreshing = homeViewModel.uiState.isRefreshingNearbyStops,
                         onRefresh = homeViewModel::getNearbyStops,
-                        onBusStopClick = onBusStopClick
+                        onBusStopClick = onNearbyBusStopClick
                     )
                 }
 
@@ -181,11 +178,21 @@ fun NearbyBusesList(
     modifier: Modifier = Modifier,
     buses : ()-> List<BusWithRoute>,
     isLoading :Boolean,
-//    isLoading : ()->Boolean,
+    onRefresh : (isLoading : Boolean, isRefreshing : Boolean)->Unit,
+    onBusClick : (String)-> Unit
 ){
     if(isLoading){
         return CustomLoadingIndicator(
             modifier = modifier
+        )
+    }
+    if(buses().isEmpty()){
+        return RefreshContainer(
+            modifier = Modifier.fillMaxHeight(0.3f),
+            message = "No Nearby Buses Found!",
+            onRefresh = {
+                onRefresh(false, true)
+            }
         )
     }
     LazyRow(
@@ -195,7 +202,9 @@ fun NearbyBusesList(
                     routeNo = it.route.routeNo,
                     routeName = it.route.name,
                     vehNo = it.vehNo,
-                    onClick = {}
+                    onClick = {
+                        onBusClick(it.vehNo)
+                    }
                 )
                 Spacer(modifier = Modifier.width(14.dp))
             }
@@ -216,6 +225,15 @@ fun NearbyBusStopsList(
     if(isLoading){
         return CustomLoadingIndicator(
             modifier = modifier,
+        )
+    }
+    if(busStops().isEmpty()){
+        return RefreshContainer(
+            modifier = Modifier.fillMaxHeight(0.4f),
+            message = "No Nearby Bus Stops Found!",
+            onRefresh = {
+                onRefresh(false, true)
+            }
         )
     }
     SwipeRefresh(

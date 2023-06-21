@@ -1,14 +1,12 @@
-package com.example.bustrackingapp.feature_bus_routes.presentation.route_details
+package com.example.bustrackingapp.feature_bus.presentation.bus_details
 
 import com.example.bustrackingapp.core.domain.models.Bus
-import com.example.bustrackingapp.feature_bus.domain.models.BusWithRoute
 import com.example.bustrackingapp.feature_bus_routes.domain.models.BusRouteWithStops
 
-data class RouteDetailsUiState(
+data class BusDetailsUiState(
     val route : BusRouteWithStops?=null,
-    val buses : List<Bus> = emptyList(),
+    val bus : Bus?=null,
     val isLoading : Boolean = false,
     val isRefreshing : Boolean = false,
-    val showScheduleBottomSheet : Boolean = false,
     val error : String?=null
 )

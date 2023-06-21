@@ -34,6 +34,7 @@ fun DashboardScreen(
     bottomNavViewModel : DashboardViewModel = hiltViewModel(),
     onBusRouteClick : (String)->Unit,
     onBusStopClick : (String)->Unit,
+    onBusClick : (String)->Unit,
     onAllBusStopsClick : ()->Unit
 
 ){
@@ -55,7 +56,8 @@ fun DashboardScreen(
                 when(bottomNavViewModel.selectedItem){
                     is BottomNavItem.Home->{
                         HomeScreen(
-                            onBusStopClick = onBusStopClick,
+                            onNearbyBusClick = onBusClick,
+                            onNearbyBusStopClick = onBusStopClick,
                             onAllBusStopsClick = onAllBusStopsClick
                         )
                     }

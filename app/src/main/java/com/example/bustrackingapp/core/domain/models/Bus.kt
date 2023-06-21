@@ -5,7 +5,7 @@ data class Bus(
     val vehNo: String,
     val status: String?,
     val info: BusInfo,
-    val location: Location?,
+    var location: Location?,
     val route: String?,
     val createdAt: String,
     val updatedAt: String,

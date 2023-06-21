@@ -2,6 +2,7 @@ package com.example.bustrackingapp.feature_bus_stop.presentation.all_stops
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -22,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.bustrackingapp.core.presentation.components.CustomLoadingIndicator
+import com.example.bustrackingapp.core.presentation.components.RefreshContainer
 import com.example.bustrackingapp.core.util.LoggerUtil
 import com.example.bustrackingapp.feature_bus_stop.domain.model.BusStopWithRoutes
 import com.example.bustrackingapp.feature_bus_stop.presentation.components.BusStopTile
@@ -107,6 +109,17 @@ private fun BusStopList(
     if(isLoading()){
         return CustomLoadingIndicator()
     }
+
+    if(busStops().isEmpty()){
+        return RefreshContainer(
+            modifier = Modifier.fillMaxHeight(0.8f),
+            message = "No Bus Stops Found!",
+            onRefresh = {
+                onRefresh(false, true)
+            }
+        )
+    }
+
     SwipeRefresh(
         state = rememberSwipeRefreshState(isRefreshing = isRefreshing()),
         onRefresh = {onRefresh(false, true)},

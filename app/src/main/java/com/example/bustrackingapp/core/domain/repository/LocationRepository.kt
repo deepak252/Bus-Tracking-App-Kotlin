@@ -12,4 +12,12 @@ interface LocationRepository {
         onSuccess : (Location)->Unit,
         onError : (Exception)->Unit
     )
+
+    fun getCurrentLocation(
+        callback: (Location) -> Unit,
+        onError : (Exception)->Unit,
+        isLive : Boolean,
+        updateInterval : Long = 1000
+    )
+
 }
