@@ -14,14 +14,8 @@ import com.example.bustrackingapp.core.presentation.components.logo.LogoCircular
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SplashScreen(
-//    splashViewModel: SplashViewModel = hiltViewModel(),
-    onSplashComplete : ()->Unit
 ) {
-//    LaunchedEffect(key1 = Unit){
-//        delay(2000)
-//        onSplashComplete()
-////        navController.popBackStack(Screen.Splash.route,true)
-//    }
+
     Scaffold(
     ) {paddingValues ->
         Box(

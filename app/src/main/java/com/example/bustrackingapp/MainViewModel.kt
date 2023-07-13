@@ -1,5 +1,6 @@
 package com.example.bustrackingapp
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,12 +16,21 @@ class MainViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel(){
     private val tokenKey = "token"
+    private val userTypeKey = "userType"
     private val loadingKey = "loading"
 
     val token = savedStateHandle.getStateFlow(tokenKey,"")
+    val userType = savedStateHandle.getStateFlow(userTypeKey,"")
     val loading = savedStateHandle.getStateFlow(loadingKey,false)
 
     init {
+        viewModelScope.launch {
+            userPrefsRepository.getUserType.collect{
+                savedStateHandle[loadingKey] = true;
+                savedStateHandle[userTypeKey] = it
+                savedStateHandle[loadingKey] = false;
+            }
+        }
         viewModelScope.launch {
             savedStateHandle[loadingKey] = true;
             userPrefsRepository.getToken.collect{
@@ -34,12 +44,6 @@ class MainViewModel @Inject constructor(
             savedStateHandle[loadingKey] = false;
         }
     }
-
-//    val getToken : StateFlow<String> = userPrefsRepository.getToken.stateIn(
-//        viewModelScope,
-//        SharingStarted.Lazily,
-//        ""
-//    )
 
 
 }

@@ -7,17 +7,18 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 
-@Singleton
-class SocketIOClient @Inject constructor() {
+class SocketIOClient {
 
     private val logger = LoggerUtil(c = "SocketIOClient");
     private var socket: Socket?=null
 
-    fun init(token : String){
+    fun init(url : String){
         if(socket==null){
-            socket = IO.socket("${Constants.socketBaseUrl}/user?token=$token")
+            socket = IO.socket(url)
         }
+//        "${Constants.socketBaseUrl}/user?token=$token"
     }
+
     fun connect() = safeCall {
         socket?.connect()
     }
@@ -35,16 +36,26 @@ class SocketIOClient @Inject constructor() {
 
     fun on(eventName: String, callBack : (Any)->Unit ) = safeCall {
         socket?.on(eventName){
-            val message = if(it.isNotEmpty()){
-                it[0]
-            }else{
-                it
+            try{
+                val message = if(it.isNotEmpty()){
+                    it[0]
+                }else{
+                    it
+                }
+                logger.info("OnEvent : $eventName, $message","listen")
+                callBack(it)
+            }catch(e : Exception){
+                logger.error("$e, {${e.stackTrace}}","on : $eventName")
             }
-            logger.info("OnEvent : $eventName, $message","listen")
-            callBack(it)
+
         }
-        logger.info("Socket Listening to Event : $eventName","listen")
+        logger.info("Socket Listening to Event : $eventName","on")
     }
+
+    fun connected() : Boolean?{
+        return socket?.connected()
+    }
+
 
     private fun safeCall(callBack : ()->Unit){
         if(socket==null){
@@ -52,5 +63,6 @@ class SocketIOClient @Inject constructor() {
         }
         callBack()
     }
+
 
 }

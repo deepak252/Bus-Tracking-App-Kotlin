@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.bustrackingapp.core.presentation.components.BottomNavItem
 import com.example.bustrackingapp.core.presentation.components.LocationPermissionWrapper
+import com.example.bustrackingapp.core.util.Constants
 import com.example.bustrackingapp.feature_bus_routes.domain.models.BusRouteWithStops
 import com.example.bustrackingapp.feature_bus_routes.presentation.bus_routes.BusRoutesScreen
 import com.example.bustrackingapp.feature_bus_stop.domain.model.BusStopWithRoutes
@@ -35,7 +36,8 @@ fun DashboardScreen(
     onBusRouteClick : (String)->Unit,
     onBusStopClick : (String)->Unit,
     onBusClick : (String)->Unit,
-    onAllBusStopsClick : ()->Unit
+    onAllBusStopsClick : ()->Unit,
+    userType : String
 
 ){
     Scaffold(
@@ -55,11 +57,14 @@ fun DashboardScreen(
             LocationPermissionWrapper {
                 when(bottomNavViewModel.selectedItem){
                     is BottomNavItem.Home->{
+//                        if(userType==Constants.UserType.driver)
                         HomeScreen(
                             onNearbyBusClick = onBusClick,
                             onNearbyBusStopClick = onBusStopClick,
                             onAllBusStopsClick = onAllBusStopsClick
                         )
+//                        else
+//                            ProfileScreen()
                     }
                     is BottomNavItem.BusRoutes->{
                         BusRoutesScreen(

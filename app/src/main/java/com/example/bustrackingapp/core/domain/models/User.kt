@@ -1,4 +1,4 @@
-package com.example.bustrackingapp.feature_profile.domain.models
+package com.example.bustrackingapp.core.domain.models
 
 data class User(
     val id : String,
@@ -6,4 +6,5 @@ data class User(
     val email : String,
     val phone : String,
     val password : String,
+    val userType : String
 )

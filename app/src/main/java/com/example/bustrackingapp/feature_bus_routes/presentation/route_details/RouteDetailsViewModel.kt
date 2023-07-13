@@ -38,7 +38,6 @@ import kotlin.reflect.typeOf
 @HiltViewModel
 class RouteDetailsViewModel @Inject constructor(
     private val getBusRouteUseCase: GetBusRouteUseCase,
-//    private val getBusesForRouteUseCase: GetBusesForRouteUseCase,
     private val userPrefsRepository: UserPrefsRepository,
 ) : ViewModel(){
     private val logger = LoggerUtil(c = "RouteDetailsViewModel")
@@ -183,63 +182,86 @@ class RouteDetailsViewModel @Inject constructor(
 
     override fun onCleared() {
         super.onCleared()
-        disconnectSocket()
+        socket?.disconnect()
+//        disconnectSocket()
     }
 }
 
+
+
+//
+//
 //@HiltViewModel
 //class RouteDetailsViewModel @Inject constructor(
 //    private val getBusRouteUseCase: GetBusRouteUseCase,
-//    private val getBusesForRouteUseCase: GetBusesForRouteUseCase,
 //    private val userPrefsRepository: UserPrefsRepository,
-//    private val socket: SocketIOClient
 //) : ViewModel(){
 //    private val logger = LoggerUtil(c = "RouteDetailsViewModel")
 //    var uiState by mutableStateOf(RouteDetailsUiState())
 //        private set
 //
-////    private var socket: Socket?=null
+//        private var socket: Socket?=null
 //
 //    init {
-//        connectSocket()
+////        connectSocket()
 //    }
 //
-//    private fun connectSocket() {
+//    fun connectSocket(routeNo : String) {
+//        if(socket?.connected()==true){
+//            logger.info("Already Connected to Socket",fxn = "connectSocket")
+//            return
+//        }
 //        viewModelScope.launch {
 //            try{
-//                val token = userPrefsRepository.getToken.first()
-//                logger.info("token = $token","connectSocket")
-//                if(token.isNotEmpty()){
-//                    socket.init(token)
+//                if(socket==null){
+//                    val token = userPrefsRepository.getToken.first()
+//                    logger.info("token = $token","connectSocket")
+//                    if(token.isNotEmpty()){
+//                        socket = IO.socket("${Constants.socketBaseUrl}/user?token=$token")
+//                    }
 //                }
-//                socket.connect()
-//                socket.on(Socket.EVENT_CONNECT){
+//                socket?.connect()
+//                listenEvent(Socket.EVENT_CONNECT){
 ////                    logger.info("Socket Connected : $it","connectSocket")
-//
-//                    socket.on("bus:locationUpdated"){
-//
-//                    }
-//                    socket.on("bus:routeUpdated"){
-//
-//                    }
-//                    socket.on("user:routeJoined"){
-//
-//                    }
-//
-//                    socket.on("error"){
-//
-//                    }
-//                    socket.emit(
-//                        "user:joinRoute",
+//                    emitEvent(
+//                        SocketEvent.User.joinRoute,
 //                        payload = mapOf(
-//                            "routeNo" to "412_UP"
+//                            "routeNo" to routeNo
 //                        )
 //                    )
 //                }
-//                socket.on(Socket.EVENT_DISCONNECT){
+//                listenEvent(SocketEvent.Bus.locationUpdated){ data->
+//                    val result = GsonUtil.parse<Bus>(data.toString())
+//                    val buses = uiState.buses.toMutableList()
+//                    val index = buses.indexOfFirst { bus ->
+//                        bus.vehNo == result.vehNo
+//                    }
+//                    if (index >= 0) {
+//                        val updatedBus = buses[index].copy(location = result.location)
+//                        buses[index] = updatedBus
+//                        uiState = uiState.copy(buses = buses)
+//                    }
+//                    logger.info("index = $index, uiState = ${uiState.buses}", "locationUpdated")
+//
+//                }
+//                listenEvent(SocketEvent.Bus.routeUpdated){
+//                    val result = GsonUtil.parseList<Bus>(it.toString())
+//                    uiState = uiState.copy(buses = result)
+//                }
+//                listenEvent(SocketEvent.User.routeJoined){
+//                    val result = GsonUtil.parseList<Bus>(it.toString())
+//                    uiState = uiState.copy(buses = result.toList())
+////                    logger.info("apiResponseList = $result", "routeJoined")
+//                }
+//
+//                listenEvent(SocketEvent.error){
+//
+//                }
+//
+//                listenEvent(Socket.EVENT_DISCONNECT){
 ////                    logger.info("Socket Disconnected : $it","connectSocket")
 //                }
-//                socket.on(Socket.EVENT_CONNECT_ERROR){
+//                listenEvent(Socket.EVENT_CONNECT_ERROR){
 ////                    logger.info("Socket Connection Failed!! : $it","connectSocket")
 //                }
 //
@@ -249,9 +271,48 @@ class RouteDetailsViewModel @Inject constructor(
 //        }
 //    }
 //
+//    private fun disconnectSocket() {
+//        socket?.disconnect()
+//        socket?.off(SocketEvent.User.joinRoute)
+//        socket?.off(SocketEvent.User.routeJoined)
+//        socket?.off(SocketEvent.Bus.locationUpdated)
+//        socket?.off(SocketEvent.Bus.routeUpdated)
+//        socket?.off(SocketEvent.error)
+//    }
 //
-//    fun toggleBottomSheet(){
-//        uiState = uiState.copy(showBottomSheet = !uiState.showBottomSheet)
+//    private fun emitEvent(eventName: String, payload: Map<String, Any>  ) {
+//        if(socket==null){
+//            logger.error("Socket Not Initialized!!","emitEvent")
+//        }else{
+//            socket?.emit(eventName, JSONObject(payload))
+//            logger.info("Socket Emit Event : $eventName","emitEvent")
+//        }
+//    }
+//
+//    private fun listenEvent(eventName: String, callBack : (Any)->Unit ){
+//        if(socket==null){
+//            logger.error("Socket Not Initialized!!","listenEvent")
+//        }else{
+//            socket?.on(eventName){
+//                try{
+//                    val message = if(it.isNotEmpty()){
+//                        it[0]
+//                    }else{
+//                        it
+//                    }
+//                    logger.info("OnEvent : $eventName, $message","listenEvent")
+//                    callBack(message)
+//                }catch (e : Exception){
+//                    logger.error("$e, {${e.stackTrace}}","listenEvent : $eventName")
+//                }
+//            }
+//            logger.info("Socket Listening to Event : $eventName","listenEvent")
+//        }
+//    }
+//
+//
+//    fun toggleScheduleBottomSheet(){
+//        uiState = uiState.copy(showScheduleBottomSheet = !uiState.showScheduleBottomSheet)
 //    }
 //
 //    fun getBusRouteDetails(routeNo : String, isLoading : Boolean = false, isRefreshing : Boolean = false){
@@ -277,6 +338,6 @@ class RouteDetailsViewModel @Inject constructor(
 //
 //    override fun onCleared() {
 //        super.onCleared()
-//        socket.disconnect()
+//        disconnectSocket()
 //    }
 //}

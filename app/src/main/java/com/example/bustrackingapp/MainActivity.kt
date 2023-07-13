@@ -32,24 +32,25 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
 
-//                    LocationPermissionScreen()
-
-
                     val mainViewModel = viewModel<MainViewModel>()
+                    val userType by mainViewModel.userType.collectAsState()
                     val token by mainViewModel.token.collectAsState()
                     val isLoading by mainViewModel.loading.collectAsState()
 
                     var initialScreen = ScreenRoutes.SplashScreen.route
                     if(!isLoading){
-                        initialScreen = if(token.isEmpty()) ScreenRoutes.AuthScreen.route
-                            else ScreenRoutes.DashboardScreen.route
+                        initialScreen = if( token.isEmpty()) ScreenRoutes.AuthScreen.route
+                            else "dashboard"
+//                        initialScreen = if( token.isEmpty()) ScreenRoutes.AuthScreen.route
+//                        else ScreenRoutes.DashboardScreen.route
                     }
 
-//                    val initialScreen = if(token.isEmpty()) ScreenRoutes.AuthScreen.route
-//                                        else ScreenRoutes.DashboardScreen.route
                     logger.info("Loading = $isLoading, InitialScreen = $initialScreen, Token = $token\"")
 
-                    Navigation(startDestination = initialScreen)
+                    Navigation(
+                        startDestination = initialScreen,
+                        userType = userType
+                    )
                 }
             }
         }

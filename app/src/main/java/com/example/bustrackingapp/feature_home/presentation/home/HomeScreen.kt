@@ -61,9 +61,6 @@ fun HomeScreen(
     onNearbyBusStopClick : (String)->Unit,
     onAllBusStopsClick : ()->Unit
 ){
-    val context = LocalContext.current
-
-
     LaunchedEffect(
         key1 = homeViewModel.uiState.errorNearbyBuses,
         key2 = homeViewModel.uiState.nearbyBusStops,

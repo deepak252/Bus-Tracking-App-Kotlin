@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.example.bustrackingapp.core.domain.repository.UserPrefsRepository
+import com.example.bustrackingapp.core.util.Constants
 import com.example.bustrackingapp.core.util.LoggerUtil
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -20,6 +21,7 @@ class UserPrefsRepositoryImpl @Inject constructor(
     private val logger = LoggerUtil(c = "UserPrefsRepositoryImpl")
     private object PreferencesKey{
         val userToken  = stringPreferencesKey("user_token")
+        val userType = stringPreferencesKey("user_type")
     }
 
     override suspend fun updateToken(token: String?) {
@@ -38,5 +40,24 @@ class UserPrefsRepositoryImpl @Inject constructor(
             }
         }.map { preference ->
             preference[PreferencesKey.userToken] ?: ""
+        }
+
+
+    override suspend fun updateUserType(userType: String?) {
+        logger.info("$userType", "userType")
+
+        dataStore.edit { preferences ->
+            preferences[PreferencesKey.userType] = userType?:Constants.UserType.passenger
+        }
+    }
+
+    override val getUserType : Flow<String> = dataStore.data
+        .catch {
+            if(this is Exception){
+                logger.info("${this.message}", "getUserType")
+                emit(emptyPreferences())
+            }
+        }.map { preference ->
+            preference[PreferencesKey.userType] ?: Constants.UserType.passenger
         }
 }

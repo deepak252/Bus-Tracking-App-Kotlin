@@ -31,6 +31,8 @@ class SignUpUseCase @Inject constructor(
         },
         onSuccess = {result ->
             val token = result.token
+            val userType = result.user.userType
+            userPrefsRepository.updateUserType(userType)
             userPrefsRepository.updateToken(token)
         }
     )

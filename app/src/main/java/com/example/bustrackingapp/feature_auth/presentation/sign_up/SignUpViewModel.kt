@@ -46,6 +46,9 @@ class SignUpViewModel @Inject constructor(
         uiState = uiState.copy(
             passwordInput = trimmedVal,
             errorPasswordInput = ValidationUtil.validatePassword(trimmedVal),
+            errorCfPasswordInput = if(uiState.cfPasswordInput.isNotEmpty())
+                ValidationUtil.validateConfirmPassword( trimmedVal ,uiState.cfPasswordInput)
+            else null
         )
     }
 
@@ -86,38 +89,7 @@ class SignUpViewModel @Inject constructor(
             }
                 .launchIn(viewModelScope)
         }
-//        if(validateSignUp()){
-//            uiState = uiState.copy(isLoading = true, errorSignUp = null)
-//            viewModelScope.launch {
-//                uiState = try{
-//                    val result = authRepository.signUpUser(
-//                        SignUpUserRequest(
-//                            name = uiState.nameInput,
-//                            email = uiState.emailInput,
-//                            phone = uiState.phoneInput,
-//                            password = uiState.passwordInput,
-//                        )
-//                    )
-//                    when(result){
-//                        is NetworkResult.Success -> {
-//                            val token = result.data?.token;
-//                            if(token!=null){
-//                                userPrefsRepository.updateToken(token)
-//                                uiState.copy(isSignedUp = true, errorSignUp = null, isLoading = false)
-//                            }else{
-//                                uiState.copy(isSignedUp = false, errorSignUp = "Something Went Wrong!", isLoading = false)
-//                            }
-//                        }
-//                        is NetworkResult.Error -> {
-//                            uiState.copy(errorSignUp = result.message, isLoading = false)
-//                        }
-//                    }
-//
-//                }catch (e : Exception){
-//                    uiState.copy(errorSignUp = e.message, isLoading = false)
-//                }
-//            }
-//        }
+
     }
 
     private fun validateSignUp() : Boolean{

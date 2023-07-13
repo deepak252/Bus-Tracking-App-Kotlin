@@ -1,6 +1,6 @@
 package com.example.bustrackingapp.feature_profile.data.remote.dto
 
-import com.example.bustrackingapp.feature_profile.domain.models.User
+import com.example.bustrackingapp.core.domain.models.User
 
 data class UserDto(
     val _id: String,
@@ -8,6 +8,7 @@ data class UserDto(
     val email: String,
     val phone: String,
     val password: String,
+    val userType : String,
     val createdAt: String,
     val updatedAt: String
 )
@@ -18,6 +19,7 @@ fun UserDto.toUser() : User {
         name = name,
         email = email,
         phone = phone,
-        password = password
+        password = password,
+        userType = userType
     )
 }

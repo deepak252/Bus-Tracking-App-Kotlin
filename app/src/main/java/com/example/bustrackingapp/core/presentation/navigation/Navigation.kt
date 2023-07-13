@@ -18,6 +18,7 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 fun Navigation(
     navController : NavHostController = rememberAnimatedNavController(),
     startDestination : String =  ScreenRoutes.AuthScreen.route,
+    userType : String,
 ) {
     AnimatedNavHost(
         navController = navController,
@@ -26,13 +27,21 @@ fun Navigation(
         composable(
             route = ScreenRoutes.SplashScreen.route
         ){
-            SplashScreen(
-                onSplashComplete = {
-                    navController.popBackStack()
-                    navController.navigate(ScreenRoutes.DashboardScreen.route)
-                }
-            )
+            SplashScreen()
         }
+
+//        composable(
+//            route = ScreenRoutes.UserTypeSelectionScreen.route
+//        ){
+//            UserTypeSelectionScreen(
+//                onSelectedPassenger = {
+//
+//                },
+//                onSelectedDriver = {
+//
+//                }
+//            )
+//        }
 
         authNavGraph(navController)
 
@@ -51,7 +60,8 @@ fun Navigation(
                 },
                 onAllBusStopsClick = {
                     navController.navigate(ScreenRoutes.BusStopsScreen.route)
-                }
+                },
+                userType = userType
             )
         }
 
@@ -100,6 +110,7 @@ fun Navigation(
 
 sealed class ScreenRoutes(val route : String){
     object SplashScreen : ScreenRoutes("splash")
+//    object UserTypeSelectionScreen : ScreenRoutes("userTypeSelection")
     object AuthScreen : ScreenRoutes("auth")
     object DashboardScreen : ScreenRoutes("dashboard")
     object BusDetailsScreen : ScreenRoutes("bus/{vehNo}")

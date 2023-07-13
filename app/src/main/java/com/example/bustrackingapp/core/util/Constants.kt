@@ -3,9 +3,9 @@ package com.example.bustrackingapp.core.util
 import com.example.bustrackingapp.R
 
 object Constants {
-//    private const val baseUrl = "http://192.168.216.98:3000"   // New2
+    private const val baseUrl = "http://192.168.223.98:3000"   // New2
 //    const val baseUrl = "http://192.168.244.98:3000"   // New
-    private const val baseUrl = "http://192.168.43.98:3000" //Old
+//    private const val baseUrl = "http://192.168.43.98:3000" //Old
     const val apiBaseUrl = "$baseUrl/api/"
     const val socketBaseUrl = baseUrl
 
@@ -33,6 +33,11 @@ object Constants {
         "cancelled" to "CANCELLED",
         "break_down" to "BREAK DOWN",
     )
+
+    object UserType{
+        const val passenger = "passenger"
+        const val driver = "driver"
+    }
 
     val days = listOf("sunday", "monday", "tuesday", "wednesday", "thursday","friday","saturday")
 }
