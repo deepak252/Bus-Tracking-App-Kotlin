@@ -15,16 +15,62 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
+
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+
+    primary = NavyBlue700, // Status bar, Button, TF-Label
+    onPrimary = White, // Text on Button
+    primaryContainer = NavyBlue700,
+//    onPrimaryContainer = White,
+//    inversePrimary = Blue500,
+    secondary = NavyBlue900, //
+    onSecondary = White, // Text Color (on Screen),
+    secondaryContainer = Blue700, // Bottom Navigation Indicator, CustomButton
+    // {CustomSolidButton}
+//    onSecondaryContainer = White,
+    tertiary = NavyBlue500, // BusTileCard,
+    onTertiary = White,
+//    onTertiaryContainer = White,
+    background = NavyBlue900, // Screen Background
+    onBackground = White,  //
+    surface = NavyBlue900, //appbar, bottom navigation,
+    onSurface = White, //
+//    surfaceVariant = Blue500,
+    onSurfaceVariant = White, //
+    surfaceTint = Blue500, //
+//    inverseSurface = Blue500,
+//    inverseOnSurface = Blue500,
+//    error = error,
+//    onError = onError,
+//    errorContainer = errorContainer,
+//    onErrorContainer = onErrorContainer,
+//    outline = Blue500,
+//    outlineVariant = Blue500,
+//    scrim = Blue500,
+
+
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+
+    onPrimary = NavyBlue900,
+
+    primary = White,
+    secondary = White,
+    tertiary = White,
+    onTertiary = NavyBlue900,
+
+    primaryContainer = White,
+
+    secondaryContainer = Blue700,
+    onSecondaryContainer = White,
+
+    surfaceTint = Blue500, //
+
+
+//    primary = Purple40,
+//    secondary = PurpleGrey40,
+//    tertiary = Pink40
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
@@ -45,10 +91,10 @@ fun BusTrackingAppTheme(
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
+//        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+//            val context = LocalContext.current
+//            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+//        }
 
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
