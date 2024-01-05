@@ -38,11 +38,11 @@ BackEnd - https://github.com/deepak252/Bus-Tracking-Backend
 
 <br>
 
-<img height="660" width="300" alt="Screenshot 2023-12-30 at 2 10 00 PM" src="https://github.com/deepak252/Bus-Tracking-App-Kotlin/assets/72331440/68c8ed30-bfe6-4388-9ccf-d17b3aed16b3">
-<img height="660" width="300" alt="Screenshot 2023-12-30 at 2 10 16 PM" src="https://github.com/deepak252/Bus-Tracking-App-Kotlin/assets/72331440/00c18572-a8c1-4119-8019-529f62d819c2">
-<img height="660" width="300" alt="Screenshot 2023-12-30 at 2 10 21 PM" src="https://github.com/deepak252/Bus-Tracking-App-Kotlin/assets/72331440/76552460-b28b-4de1-8551-f3d03a369634">
-<img height="660" width="300" alt="Screenshot 2023-12-30 at 2 10 21 PM copy" src="https://github.com/deepak252/Bus-Tracking-App-Kotlin/assets/72331440/238a1020-00b5-4dd6-b564-42707f5050b3">
-<img height="660" width="300" alt="Screenshot 2023-12-30 at 2 10 25 PM" src="https://github.com/deepak252/Bus-Tracking-App-Kotlin/assets/72331440/fc304d6f-ec4a-4b9a-9da1-5718907949d9">
-<img height="660" width="300" alt="Screenshot 2023-12-30 at 2 10 31 PM" src="https://github.com/deepak252/Bus-Tracking-App-Kotlin/assets/72331440/48fd89ec-7867-4f3f-9cbc-6b667078cf14">
-<img height="660" width="300" alt="Screenshot 2023-12-30 at 2 10 40 PM" src="https://github.com/deepak252/Bus-Tracking-App-Kotlin/assets/72331440/b93c0c96-113e-4fed-8231-e1db1c376adb">
+<img height="440" width="200" alt="Screenshot 2023-12-30 at 2 10 00 PM" src="https://github.com/deepak252/Bus-Tracking-App-Kotlin/assets/72331440/68c8ed30-bfe6-4388-9ccf-d17b3aed16b3">
+<img height="440" width="200" alt="Screenshot 2023-12-30 at 2 10 16 PM" src="https://github.com/deepak252/Bus-Tracking-App-Kotlin/assets/72331440/00c18572-a8c1-4119-8019-529f62d819c2">
+<img height="440" width="200" alt="Screenshot 2023-12-30 at 2 10 21 PM" src="https://github.com/deepak252/Bus-Tracking-App-Kotlin/assets/72331440/76552460-b28b-4de1-8551-f3d03a369634">
+<img height="440" width="200" alt="Screenshot 2023-12-30 at 2 10 21 PM copy" src="https://github.com/deepak252/Bus-Tracking-App-Kotlin/assets/72331440/238a1020-00b5-4dd6-b564-42707f5050b3">
+<img height="440" width="200" alt="Screenshot 2023-12-30 at 2 10 25 PM" src="https://github.com/deepak252/Bus-Tracking-App-Kotlin/assets/72331440/fc304d6f-ec4a-4b9a-9da1-5718907949d9">
+<img height="440" width="200" alt="Screenshot 2023-12-30 at 2 10 31 PM" src="https://github.com/deepak252/Bus-Tracking-App-Kotlin/assets/72331440/48fd89ec-7867-4f3f-9cbc-6b667078cf14">
+<img height="440" width="200" alt="Screenshot 2023-12-30 at 2 10 40 PM" src="https://github.com/deepak252/Bus-Tracking-App-Kotlin/assets/72331440/b93c0c96-113e-4fed-8231-e1db1c376adb">
 
